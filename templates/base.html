@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Рецепты</title>
+    <link rel="stylesheet" href="{% block main_css %}/static/pages/index.css{% endblock main_css %}">
+</head>
+<body class="body">
+{% include 'includes/nav.html' %}
+<main class="main container">
+
+
+    {% block content %}
+    <!-- Содержимое страницы -->
+    {% endblock content %}
+    {% if page %}
+    {% include 'includes/pagination.html' %}
+    {% endif %}
+</main>
+
+{% include 'includes/footer.html' %}
+
+<script src="/static/js/components/MainCards.js"></script>
+
+<script src="/static/js/components/Purchases.js"></script>
+<script src="/static/js/components/Favorites.js"></script>
+
+<script src="/static/js/config/config.js"></script>
+<script src="/static/js/components/CardList.js"></script>
+<script src="/static/js/components/Header.js"></script>
+
+<script src="/static/js/api/Api.js"></script>
+<script src="/static/indexAuth.js"></script>
+</body>
+</html>
