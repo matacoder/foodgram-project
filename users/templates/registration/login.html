@@ -9,6 +9,11 @@
     <h1 class="main__title">Войти на сайт</h1>
 </div>
 <div class="form-container">
+    {% for error in form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error|escape }}
+    </div>
+    {% endfor %}
     <form class="form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <div class="form__group">
