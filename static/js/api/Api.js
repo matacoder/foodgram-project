@@ -81,7 +81,10 @@ class Api {
             headers: {
                 'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                id: id
+            })
         })
             .then(e => {
                 if (e.ok) {
@@ -92,9 +95,10 @@ class Api {
     }
 
     addFavorites(id) {
-        return fetch(`/favorites`, {
+        return fetch(`/favorites/`, {
             method: 'POST',
             headers: {
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -110,11 +114,15 @@ class Api {
     }
 
     removeFavorites(id) {
-        return fetch(`/favorites/${id}`, {
+        return fetch(`/favorites/`, {
             method: 'DELETE',
             headers: {
+                'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+                id: id
+            })
         })
             .then(e => {
                 if (e.ok) {

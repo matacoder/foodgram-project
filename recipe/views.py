@@ -180,3 +180,7 @@ def purchases(request):
 
 def subscriptions(request):
     return JsonResponse({'success': 'true'})
+
+
+def favorites(request):
+    return JsonResponse({'success': 'true'})
