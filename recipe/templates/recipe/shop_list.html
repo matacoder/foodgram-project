@@ -13,7 +13,7 @@
     <ul class="shopping-list">
         <li class="shopping-list__item" data-id="111">
             <div class="recipe recipe_reverse">
-                <img src="../../../static/images/testCardImg.png" alt="какой-то текст"
+                <img src="/static/images/testCardImg.png" alt="какой-то текст"
                      class="recipe__image recipe__image_big">
                 <h3 class="recipe__title">Французские тосты</h3>
                 <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
@@ -22,7 +22,7 @@
         </li>
         <li class="shopping-list__item" data-id="1112">
             <div class="recipe recipe_reverse">
-                <img src="../../../static/images/testCardImg.png" alt="какой-то текст"
+                <img src="/static/images/testCardImg.png" alt="какой-то текст"
                      class="recipe__image recipe__image_big">
                 <h3 class="recipe__title">Французские тосты</h3>
                 <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
@@ -31,7 +31,7 @@
         </li>
         <li class="shopping-list__item" data-id="1113">
             <div class="recipe recipe_reverse">
-                <img src="../../../static/images/testCardImg.png" alt="какой-то текст"
+                <img src="/static/images/testCardImg.png" alt="какой-то текст"
                      class="recipe__image recipe__image_big">
                 <h3 class="recipe__title">Французские тосты</h3>
                 <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
@@ -45,4 +45,11 @@
 
 
 </div>
+{% endblock %}
+{% block js %}
+<script src="/static/js/config/config.js"></script>
+<script src="/static/js/components/Header.js"></script>
+<script src="/static/js/components/ShopList.js"></script>
+<script src="/static/js/api/Api.js"></script>
+<script src="/static/shopList.js"></script>
 {% endblock %}
