@@ -108,3 +108,24 @@ def edit_recipe(request):
             # "paginator": paginator
         }
     )
+
+
+def shoplist(request):
+    # post_list = Post.objects.select_related(
+    #     "author", "group"
+    # ).order_by("-pub_date").all()
+    #
+    # paginator = Paginator(post_list, 10)
+    # # показывать по 10 записей на странице.
+    # page_number = request.GET.get("page")
+    # # переменная в URL с номером запрошенной страницы
+    # page = paginator.get_page(page_number)
+    # # получить записи с нужным смещением
+    return render(
+        request,
+        "recipe/shop_list.html",
+        {
+            # "page": page,
+            # "paginator": paginator
+        }
+    )
