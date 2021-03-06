@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import render
 
 
@@ -151,6 +152,7 @@ def single(request):
         }
     )
 
+
 def my_follow(request):
     # post_list = Post.objects.select_related(
     #     "author", "group"
@@ -170,3 +172,7 @@ def my_follow(request):
             # "paginator": paginator
         }
     )
+
+
+def purchases(request):
+    return JsonResponse({'success': 'true'})
