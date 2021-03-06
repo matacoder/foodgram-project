@@ -12,4 +12,5 @@ urlpatterns = [
     path("recipe/", views.single, name="single"),
     path("following/", views.my_follow, name="my_follow"),
     path("purchases/", views.purchases, name="purchases"),
+    path("subscriptions/", views.subscriptions, name="subscriptions"),
 ]

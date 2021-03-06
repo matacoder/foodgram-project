@@ -4,8 +4,9 @@
 
 
 {% block content %}
+{% csrf_token %}
 <div class="main__header">
-    <h1 class="main__title">Вероника Чернова</h1>
+    <h1 class="main__title">Вероника Чернова!</h1>
     {% include 'recipe/includes/tags.html' %}
 
 </div>

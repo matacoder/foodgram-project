@@ -176,3 +176,7 @@ def my_follow(request):
 
 def purchases(request):
     return JsonResponse({'success': 'true'})
+
+
+def subscriptions(request):
+    return JsonResponse({'success': 'true'})
