@@ -52,7 +52,7 @@ class Amount(models.Model):
 
 
 """
-Database Project
+Database blueprint
 
 
 AbstractUser
@@ -73,6 +73,7 @@ Recipe
 - slug
 - favorite ManyToMany AbstractUser
 - listed ManyToMany AbstractUser
+- pub_date (auto)
 
 Amount
 - id recipe
