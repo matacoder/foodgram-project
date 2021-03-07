@@ -34,6 +34,11 @@ class Recipe(models.Model):
     slug = models.SlugField(unique=True, max_length=200)
     favorite = models.ManyToManyField(User, blank=True, related_name="favorite_recipes")
     listed = models.ManyToManyField(User, blank=True, related_name="listed_recipes")
+    pub_date = models.DateTimeField(
+        verbose_name="Дата публикации",
+        auto_now_add=True,
+        db_index=True
+    )
 
     def __str__(self):
         return f'Recipe: {self.name} by {self.author}'
