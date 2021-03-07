@@ -3,6 +3,9 @@ from django.db import models
 # Create your models here.
 """
 
+AbstractUser
+- following Many2Many AbstractUser
+
 Ingredient
 - name
 - measure
@@ -10,35 +13,21 @@ Ingredient
 Recipe
 - name
 - user id
-- tags ManyToMany
+- Tags ManyToMany Tags
+- Recipe ManyToMay Ingredient through Amount
 - description
 - cook_time
 - photo
 - slug
+- favorite ManyToMany AbstractUser
+- listed ManyToMany AbstractUser
 
-RecipeIngredients
+Amount
 - id recipe
 - id ingredient
 - numeric measure
 
 Tags
 - name
-
-RecipeTags
-- id recipe
-- id tags
-
-
-Following
-- id user
-- id user
-
-Favorite
-- id user
-- id recipe
-
-List
-- id user
-- id recipe
 
 """
