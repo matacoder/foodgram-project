@@ -6,7 +6,7 @@
 {% block content %}
 {% csrf_token %}
 
-<div class="single-card" data-id="371" data-author="12">
+<div class="single-card" data-id="{{ recipe.pk }}" data-author="12">
     <img src="/static/images/testCardImg.png" alt="какой-то текст" class="single-card__image">
     <div class="single-card__info">
         <div class="single-card__header-info">
