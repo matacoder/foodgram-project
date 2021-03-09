@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from django.urls import reverse
+from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
 from recipe.models import Recipe, Ingredient
@@ -165,22 +166,27 @@ def my_follow(request):
     )
 
 
+@login_required()
+@require_http_methods('POST')
 def purchases(request):
-    if request.method == "POST":
-        recipe_id = int(json.loads(request.body).get('id'))
-        if Recipe.objects.filter(pk=recipe_id).exists():
-            recipe = get_object_or_404(Recipe, pk=recipe_id)
-            recipe.listed.add(request.user)
-            recipe.save()
-            return JsonResponse({'success': 'true'})
-    if request.method == "DELETE":
-        recipe_id = request.GET.get("id", "")
-        if Recipe.objects.filter(pk=int(recipe_id)).exists():
-            recipe = get_object_or_404(Recipe, id=int(recipe_id))
-            if request.user in recipe.listed.all():
-                recipe.listed.remove(request.user)
-                recipe.save()
-            return JsonResponse({'success': 'true'})
+    recipe_id = int(json.loads(request.body).get('id'))
+    if Recipe.objects.filter(pk=recipe_id).exists():
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        recipe.listed.add(request.user)
+        recipe.save()
+        return JsonResponse({'success': 'true'})
+    return JsonResponse({'success': 'false'})
+
+
+@login_required()
+@require_http_methods('DELETE')
+def purchases_remove(request, recipe_id):
+    if Recipe.objects.filter(pk=recipe_id).exists():
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        if request.user in recipe.listed.all():
+            recipe.listed.remove(request.user)
+        recipe.save()
+        return JsonResponse({'success': 'true'})
     return JsonResponse({'success': 'false'})
 
 

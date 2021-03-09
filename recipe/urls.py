@@ -12,6 +12,7 @@ urlpatterns = [
     path("recipe/<slug:slug>/", views.single, name="single"),
     path("following/", views.my_follow, name="my_follow"),
     path("purchases/", views.purchases, name="purchases"),  # API
+    path("purchases/<int:recipe_id>/", views.purchases_remove, name="purchases_remove"),  # API
     path("subscriptions/", views.subscriptions, name="subscriptions"),  # API
     path("favorites/", views.favorites, name="favorites"),  # API
     path("ingredients/", views.ingredients, name="ingredients"),  # API

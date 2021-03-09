@@ -38,15 +38,12 @@ class Api {
     }
 
     removePurchases(id) {
-        return fetch(`/purchases/`, {
+        return fetch(`/purchases/${id}/`, {
             method: 'DELETE',
             headers: {
                 'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                id: id
-            })
         })
             .then(e => {
                 if (e.ok) {
@@ -114,7 +111,7 @@ class Api {
     }
 
     removeFavorites(id) {
-        return fetch(`/favorites/${id}`, {
+        return fetch(`/favorites/${id}/`, {
             method: 'DELETE',
             headers: {
                 'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
