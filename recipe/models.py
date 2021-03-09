@@ -18,6 +18,8 @@ class Ingredient(models.Model):
 class Tag(models.Model):
     """ Breakfast, Lunch, Dinner default tags here """
     name = models.CharField(max_length=255)
+    color = models.CharField(max_length=100, blank=True)
+    nice_name = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return f'Tag: {self.name}'

@@ -220,6 +220,7 @@ def favorites_remove(request, recipe_id):
     return JsonResponse({'success': 'false'})
 
 
+@login_required()
 def ingredients(request):
     data = []
     if request.method == "GET":
