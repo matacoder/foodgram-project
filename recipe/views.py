@@ -1,9 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
+from django.urls import reverse
+
+from recipe.forms import RecipeForm
+from recipe.models import Recipe
+from recipe.services import save_form_m2m
 
 
 def index(request):
@@ -69,24 +74,18 @@ def favorite(request):
     )
 
 
+@login_required
 def new_recipe(request):
-    # post_list = Post.objects.select_related(
-    #     "author", "group"
-    # ).order_by("-pub_date").all()
-    #
-    # paginator = Paginator(post_list, 10)
-    # # показывать по 10 записей на странице.
-    # page_number = request.GET.get("page")
-    # # переменная в URL с номером запрошенной страницы
-    # page = paginator.get_page(page_number)
-    # # получить записи с нужным смещением
+    form = RecipeForm(request.POST or None, files=request.FILES or None)
+    if form.is_valid():
+        form = save_form_m2m(request, form)
+
+        return redirect("single", slug=form.slug)
+
     return render(
         request,
         "recipe/recipe_form.html",
-        {
-            # "page": page,
-            # "paginator": paginator
-        }
+        {"form": form},
     )
 
 
@@ -132,23 +131,13 @@ def shoplist(request):
     )
 
 
-def single(request):
-    # post_list = Post.objects.select_related(
-    #     "author", "group"
-    # ).order_by("-pub_date").all()
-    #
-    # paginator = Paginator(post_list, 10)
-    # # показывать по 10 записей на странице.
-    # page_number = request.GET.get("page")
-    # # переменная в URL с номером запрошенной страницы
-    # page = paginator.get_page(page_number)
-    # # получить записи с нужным смещением
+def single(request, slug):
+    recipe = get_object_or_404(Recipe, slug=slug)
     return render(
         request,
         "recipe/single_page.html",
         {
-            # "page": page,
-            # "paginator": paginator
+            "recipe": recipe
         }
     )
 

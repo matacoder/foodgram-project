@@ -1,3 +1,5 @@
+from autoslug import AutoSlugField
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from users.models import User
@@ -31,7 +33,7 @@ class Recipe(models.Model):
     description = models.TextField(max_length=1000)
     cook_time = models.IntegerField()
     image = models.ImageField(upload_to="recipes/", blank=True, null=True)
-    slug = models.SlugField(unique=True, max_length=200)
+    slug = AutoSlugField(populate_from="name", allow_unicode=True)
     favorite = models.ManyToManyField(User, blank=True, related_name="favorite_recipes")
     listed = models.ManyToManyField(User, blank=True, related_name="listed_recipes")
     pub_date = models.DateTimeField(
@@ -39,6 +41,11 @@ class Recipe(models.Model):
         auto_now_add=True,
         db_index=True
     )
+
+    class Meta:
+        ordering = ('-pub_date',)
+        verbose_name = 'рецепт'
+        verbose_name_plural = 'рецепты'
 
     def __str__(self):
         return f'Recipe: {self.name} by {self.author}'
@@ -48,7 +55,11 @@ class Amount(models.Model):
     """ Support model for Ingredient&Recipe ManyToMany relation """
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="amounts")
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name="amounts")
-    amount = models.IntegerField()
+    amount = models.DecimalField(
+        max_digits=5,
+        decimal_places=1,
+        validators=[MinValueValidator(1)]
+    )
 
 
 """
