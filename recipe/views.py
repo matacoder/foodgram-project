@@ -12,6 +12,7 @@ from django.views.decorators.http import require_http_methods
 from recipe.forms import RecipeForm
 from recipe.models import Recipe, Ingredient
 from recipe.services import save_form_m2m
+from users.models import User
 
 
 def index(request):
@@ -191,8 +192,27 @@ def purchases_remove(request, recipe_id):
     return JsonResponse({'success': 'false'})
 
 
+@login_required()
+@require_http_methods('POST')
 def subscriptions(request):
-    return JsonResponse({'success': 'true'})
+    user_id = int(json.loads(request.body).get('id'))
+    if User.objects.filter(pk=user_id).exists():
+        following = User.objects.get(pk=user_id)
+        if following not in request.user.following.all():
+            request.user.following.add(following)
+        return JsonResponse({'success': 'true'})
+    return JsonResponse({'success': 'false'})
+
+
+@login_required()
+@require_http_methods('DELETE')
+def subscriptions_remove(request, user_id):
+    if User.objects.filter(pk=user_id).exists():
+        unfollowing = User.objects.get(pk=user_id)
+        if unfollowing in request.user.following.all():
+            request.user.following.remove(unfollowing)
+        return JsonResponse({'success': 'true'})
+    return JsonResponse({'success': 'false'})
 
 
 @login_required()

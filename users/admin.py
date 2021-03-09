@@ -4,7 +4,11 @@ from users.models import User
 
 
 class CustomUserAdmin(UserAdmin):
-    pass
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        (None, {
+            'fields': ('following',),
+        }),
+    )
 
 
 admin.site.register(User, CustomUserAdmin)
