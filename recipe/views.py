@@ -195,8 +195,29 @@ def subscriptions(request):
     return JsonResponse({'success': 'true'})
 
 
+@login_required()
+@require_http_methods('POST')
 def favorites(request):
-    return JsonResponse({'success': 'true'})
+    recipe_id = int(json.loads(request.body).get('id'))
+    if Recipe.objects.filter(pk=recipe_id).exists():
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        if request.user not in recipe.favorite.all():
+            recipe.favorite.add(request.user)
+            recipe.save()
+        return JsonResponse({'success': 'true'})
+    return JsonResponse({'success': 'false'})
+
+
+@login_required()
+@require_http_methods('DELETE')
+def favorites_remove(request, recipe_id):
+    if Recipe.objects.filter(pk=recipe_id).exists():
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        if request.user in recipe.favorite.all():
+            recipe.favorite.remove(request.user)
+            recipe.save()
+        return JsonResponse({'success': 'true'})
+    return JsonResponse({'success': 'false'})
 
 
 def ingredients(request):
