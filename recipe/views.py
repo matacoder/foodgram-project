@@ -172,8 +172,9 @@ def purchases(request):
     recipe_id = int(json.loads(request.body).get('id'))
     if Recipe.objects.filter(pk=recipe_id).exists():
         recipe = get_object_or_404(Recipe, pk=recipe_id)
-        recipe.listed.add(request.user)
-        recipe.save()
+        if request.user not in recipe.listed.all():
+            recipe.listed.add(request.user)
+            recipe.save()
         return JsonResponse({'success': 'true'})
     return JsonResponse({'success': 'false'})
 
@@ -185,7 +186,7 @@ def purchases_remove(request, recipe_id):
         recipe = get_object_or_404(Recipe, id=recipe_id)
         if request.user in recipe.listed.all():
             recipe.listed.remove(request.user)
-        recipe.save()
+            recipe.save()
         return JsonResponse({'success': 'true'})
     return JsonResponse({'success': 'false'})
 
