@@ -33,7 +33,7 @@ class Recipe(models.Model):
     description = models.TextField(max_length=1000)
     cook_time = models.IntegerField()
     image = models.ImageField(upload_to="recipes/", blank=True, null=True)
-    slug = AutoSlugField(populate_from="name", allow_unicode=True)
+    slug = AutoSlugField(populate_from="name", allow_unicode=True, unique=True, editable=True)
     favorite = models.ManyToManyField(User, blank=True, related_name="favorite_recipes")
     listed = models.ManyToManyField(User, blank=True, related_name="listed_recipes")
     pub_date = models.DateTimeField(
