@@ -14,4 +14,5 @@ urlpatterns = [
     path("purchases/", views.purchases, name="purchases"),  # API
     path("subscriptions/", views.subscriptions, name="subscriptions"),  # API
     path("favorites/", views.favorites, name="favorites"),  # API
+    path("ingredients/", views.ingredients, name="ingredients"),  # API
 ]

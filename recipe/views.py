@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 
 from recipe.forms import RecipeForm
-from recipe.models import Recipe
+from recipe.models import Recipe, Ingredient
 from recipe.services import save_form_m2m
 
 
@@ -173,3 +173,18 @@ def subscriptions(request):
 
 def favorites(request):
     return JsonResponse({'success': 'true'})
+
+
+def ingredients(request):
+    data = []
+    if request.method == "GET":
+        query = request.GET.get("query", "")
+        if query:
+            found_ingredients = Ingredient.objects.filter(name__startswith=query)
+            for found_ingredient in found_ingredients:
+                ingredient_api = {
+                    "title": found_ingredient.name,
+                    "dimension": found_ingredient.measure,
+                }
+                data.append(ingredient_api)
+    return JsonResponse(data, safe=False)  # Serialize non-dict object
