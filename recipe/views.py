@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import JsonResponse
@@ -165,15 +167,15 @@ def my_follow(request):
 
 def purchases(request):
     if request.method == "POST":
-        recipe_id = request.POST.get("id", "")
-        if Recipe.objects.filter(pk=int(recipe_id)).exists():
-            recipe = get_object_or_404(Recipe, pk=int(recipe_id))
+        recipe_id = int(json.loads(request.body).get('id'))
+        if Recipe.objects.filter(pk=recipe_id).exists():
+            recipe = get_object_or_404(Recipe, pk=recipe_id)
             recipe.listed.add(request.user)
             recipe.save()
             return JsonResponse({'success': 'true'})
     if request.method == "DELETE":
-        recipe_id = request.DELETE.get("id", "")
-        if recipe_id:
+        recipe_id = request.GET.get("id", "")
+        if Recipe.objects.filter(pk=int(recipe_id)).exists():
             recipe = get_object_or_404(Recipe, id=int(recipe_id))
             if request.user in recipe.listed.all():
                 recipe.listed.remove(request.user)

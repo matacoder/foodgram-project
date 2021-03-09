@@ -114,15 +114,12 @@ class Api {
     }
 
     removeFavorites(id) {
-        return fetch(`/favorites/`, {
+        return fetch(`/favorites/${id}`, {
             method: 'DELETE',
             headers: {
                 'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken')[0].value,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                id: id
-            })
         })
             .then(e => {
                 if (e.ok) {
@@ -131,6 +128,7 @@ class Api {
                 return Promise.reject(e.statusText)
             })
     }
+
 
     getIngredients(text) {
         return fetch(`/ingredients?query=${text}`, {
