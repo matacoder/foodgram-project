@@ -12,15 +12,16 @@ def save_form_m2m(request, form):
     try:
         with transaction.atomic():
             # prepare Recipe object to save
-            form.instance.author = request.user
-            form.save()
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            recipe.save()
 
             # prepare M2M through table Amount to save
             ingredients = get_ingredients_from(request.POST)
-            amounts = check_and_convert_to_objects(ingredients, form)
+            amounts = check_and_convert_to_objects(ingredients, recipe)
             Amount.objects.bulk_create(amounts)
             form.save_m2m()
-            return form
+            return recipe
     except IntegrityError:
         raise HttpResponseBadRequest
 
@@ -36,7 +37,7 @@ def get_ingredients_from(post):
 
 def check_and_convert_to_objects(ingredients, recipe):
     amounts = []
-    for name, amount in ingredients:
+    for name, amount in ingredients.items():
         amount = Decimal(amount.replace(',', '.'))
         ingredient = get_object_or_404(Ingredient, name=name)
         amounts.append(Amount(recipe=recipe, ingredient=ingredient, amount=amount))

@@ -78,9 +78,9 @@ def favorite(request):
 def new_recipe(request):
     form = RecipeForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
-        form = save_form_m2m(request, form)
+        recipe = save_form_m2m(request, form)
 
-        return redirect("single", slug=form.slug)
+        return redirect("single", slug=recipe.slug)
 
     return render(
         request,
