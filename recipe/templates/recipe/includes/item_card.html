@@ -2,7 +2,7 @@
 {% is_listed item request.user as dont_show_add_to_cart %}
 {% csrf_token %}
 <div class="card" data-id="{{ item.id }}">
-    <a href="#" class="link" target="_blank"><img src="/static/images/testCardImg.png" alt="Какой-то текст"
+    <a href="#" class="link" target="_blank"><img src="/media/{{ item.image }}" alt="Какой-то текст"
                                                   class="card__image"></a>
     <div class="card__body">
         <a class="card__title link" href="#" target="_blank">{{ item.name }}</a>
