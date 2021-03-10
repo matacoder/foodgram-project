@@ -35,7 +35,7 @@
                     <ul class="single-card__items">
                         <li class="single-card__item"><p class="single-card__text"><span
                                 class="icon-user"></span> {{ recipe.author.username }}</p></li>
-                        <li class="single-card__item"><a style="margin-left: 2.5em" href="#" class="single-card__text">Редактировать
+                        <li class="single-card__item"><a style="margin-left: 2.5em" href="{% url "edit_recipe" recipe.slug %}" class="single-card__text">Редактировать
                             рецепт</a></li>
                     </ul>
                 </div>

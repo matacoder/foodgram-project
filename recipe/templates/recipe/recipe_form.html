@@ -9,7 +9,7 @@
     {% include 'includes/nav.html'  with new=True %}
     <main class="main container">
         <div class="main__header">
-            <h1 class="main__title">Редактирование/Создание рецепта!</h1>
+            <h1 class="main__title">{% if edit %}Edit recipe{% else %}Create recipe{% endif %}</h1>
         </div>
         <span class="form-container">
             <form class="form" method="post" enctype="multipart/form-data">
@@ -18,7 +18,7 @@
 
                 <!--    name    -->
             <div class="form__group">
-                <label for="id_name" class="form__label">Название рецепта</label>
+                <label for="id_name" class="form__label">Title</label>
                 <div class="form__field-group">
                     <input type="text" id="id_name" name="name" class="form__input"
                            value="{{ form.name.value|default_if_none:'' }}">
@@ -29,26 +29,25 @@
 
                 <!--     tags as lunch: on; dinner: on        -->
             <div class="form__group">
-                <p class="form__label">Теги</p>
+                <p class="form__label">Tags</p>
                 <div class="form__field-group">
                     <div class="tags">
 
                         <!--                    here cycle -->
-
                         <div class="tags__item">
                             <input type="checkbox" name="tags" id="id_tags_0" value="1"
-                                   class="tags__checkbox tags__checkbox_style_orange">
-                            <label for="id_tags_0" class="tags__label">Завтрак</label>
+                                   class="tags__checkbox tags__checkbox_style_orange" {% if 1 in form.tags.value %}checked{% endif %}>
+                            <label for="id_tags_0" class="tags__label">Breakfast</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" id="id_tags_1" value="2"
-                                   class="tags__checkbox tags__checkbox_style_green" checked>
-                            <label for="id_tags_1" class="tags__label">Обед</label>
+                                   class="tags__checkbox tags__checkbox_style_green" {% if 2 in form.tags.value %}checked{% endif %}>
+                            <label for="id_tags_1" class="tags__label">Lunch</label>
                         </div>
                         <div class="tags__item">
                             <input type="checkbox" name="tags" id="id_tags_2" value="3"
-                                   class="tags__checkbox tags__checkbox_style_purple" checked>
-                            <label for="id_tags_2" class="tags__label">Ужин</label>
+                                   class="tags__checkbox tags__checkbox_style_purple" {% if 3 in form.tags.value %}checked{% endif %}>
+                            <label for="id_tags_2" class="tags__label">Dinner</label>
                         </div>
 
                         <!--                    here cycle end -->
@@ -65,7 +64,7 @@
                 valueIngredient_2: 5
                 unitsIngredient_2: шт. -->
             <div class="form__group">
-                <label for="nameIngredient" class="form__label">Ингредиенты</label>
+                <label for="nameIngredient" class="form__label">Ingredients</label>
                 <div class="form__field-group">
                     <div class="form__field-group-ingredientes">
                         <div class="form__dropdown">
@@ -73,32 +72,33 @@
                             <div class="form__dropdown-items"></div>
                         </div>
                         <input type="number" id="cantidad" class="form__input" min="0">
-                        <label for="cantidad" class="form__label" id="cantidadVal">шт.</label>
+                        <label for="cantidad" class="form__label" id="cantidadVal">pcs</label>
                     </div>
 
                     <div class="form__field-group-ingredientes-container">
 
                         <!--                    ingredients itself      -->
 
-                        <div class="form__field-item-ingredient" id="ing_3">
-                            <span> Оливки 10шт.</span>
+                        {% for ingredient in used_ingredients %}
+                            <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
+                            <span> {{ ingredient.ingredient.name }} {{ ingredient.amount }} {{ ingredient.ingredient.measure }}</span>
                             <span class="form__field-item-delete"></span>
-                            <input id="nameIngredient_3" name="nameIngredient_3" type="hidden" value="Оливки">
-                            <input id="valueIngredient_3" name="valueIngredient_3" type="hidden" value="10">
-                            <input id="unitsIngredient_3" name="unitsIngredient_3" type="hidden" value="шт.">
+                            <input id="nameIngredient_{{ forloop.counter }}" name="nameIngredient_{{ forloop.counter }}"
+                                   type="hidden" value="{{ ingredient.ingredient.name }}">
+                            <input id="valueIngredient_{{ forloop.counter }}"
+                                   name="valueIngredient_{{ forloop.counter }}" type="hidden"
+                                   value="{{ ingredient.amount }}">
+                            <input id="unitsIngredient_{{ forloop.counter }}"
+                                   name="unitsIngredient_{{ forloop.counter }}" type="hidden"
+                                   value="{{ ingredient.ingredient.measure }}">
                         </div>
-                        <div class="form__field-item-ingredient" id="ing_2">
-                            <span> Картошка 5шт.</span>
-                            <span class="form__field-item-delete"></span>
-                            <input id="nameIngredient_2" name="nameIngredient_2" type="hidden" value="Картошка">
-                            <input id="valueIngredient_2" name="valueIngredient_2" type="hidden" value="5">
-                            <input id="unitsIngredient_2" name="unitsIngredient_2" type="hidden" value="шт.">
-                        </div>
+                        {% endfor %}
+
 
                         <!--                    demo data -->
 
                     </div>
-                    <span class="form__ingredient-link" id="addIng">Добавить ингредиент</span>
+                    <span class="form__ingredient-link" id="addIng">Add this ingredient</span>
                     <span class="form__error">{{ form.ingredients.errors }}</span>
                 </div>
             </div>
@@ -106,10 +106,11 @@
                 <!--        cook_time           -->
 
             <div class="form__group">
-                <label for="id_time" class="form__label">Время приготовления</label>
+                <label for="id_time" class="form__label">Cooking time</label>
                 <div class="form__field-group form__field-group_time">
-                    <input type="text" id="id_time" name="cook_time" class="form__input">
-                    <label for="id_time" class="form__label">минут</label>
+                    <input type="text" id="id_time" name="cook_time" class="form__input"
+                           value="{{ form.cook_time.value|default_if_none:'' }}">
+                    <label for="id_time" class="form__label">minutes</label>
                     <span class="form__error">{{ form.cooking_time.errors }}</span>
                 </div>
             </div>
@@ -117,9 +118,10 @@
                 <!--        description         -->
 
             <div class="form__group">
-                <label for="id_description" class="form__label">Описание</label>
+                <label for="id_description" class="form__label">Description</label>
                 <div class="form__field-group">
-                    <textarea name="description" id="id_description" rows="8" class="form__textarea"></textarea>
+                    <textarea name="description" id="id_description" rows="8"
+                              class="form__textarea">{{ form.description.value|default_if_none:'' }}</textarea>
                     <span class="form__error">{{ form.description.errors }}</span>
                 </div>
             </div>
@@ -127,9 +129,9 @@
                 <!--        image               -->
 
             <div class="form__group">
-                <span class="form__label">Загрузить фото</span>
+                <span class="form__label">Upload Photo</span>
                 <div class="form__field-group">
-                    <label for="id_file" class="form__file-button">Выбрать файл</label>
+                    <label for="id_file" class="form__file-button">{% if form.image.value %} Replace image: {{ form.image.value }}{% else %}Choose image{% endif %}</label>
                     <input type="file" class="form__file" name="image" id="id_file">
                     <span class="form__error">{{ form.image.errors }}</span>
                 </div>
@@ -139,9 +141,9 @@
 
             <div class="form__footer">
                 <!--            <input class="button button_style_blue" type="submit" value="Save">-->
-                <button class="button button_style_blue">Сохранить</button>
+                <button class="button button_style_blue">Save</button>
                 {% if edit %}
-                    <a style="margin-left: 2.5em" href="#" class="form__ingredient-link">Удалить</a>
+                    <a style="margin-left: 2.5em" href="#" class="form__ingredient-link">Delete</a>
                 {% endif %}
             </div>
         </form>

@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
-from recipe.models import Recipe, Ingredient
+from recipe.models import Recipe, Ingredient, Amount
 from recipe.services import save_form_m2m
 from users.models import User
 
@@ -96,23 +96,30 @@ def new_recipe(request):
     )
 
 
-def edit_recipe(request):
-    # post_list = Post.objects.select_related(
-    #     "author", "group"
-    # ).order_by("-pub_date").all()
-    #
-    # paginator = Paginator(post_list, 10)
-    # # показывать по 10 записей на странице.
-    # page_number = request.GET.get("page")
-    # # переменная в URL с номером запрошенной страницы
-    # page = paginator.get_page(page_number)
-    # # получить записи с нужным смещением
+@login_required()
+def edit_recipe(request, slug):
+    recipe = get_object_or_404(Recipe, slug=slug)
+    url = reverse(
+        "single",
+        kwargs={"slug": slug}
+    )
+    if recipe.author != request.user:
+        return redirect(url)
+    form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
+    if request.POST and form.is_valid():
+        recipe.amounts.all().delete()
+        save_form_m2m(request, form)
+        return redirect(url)
+    used_ingredients = recipe.amounts.all()
+    edit = True
+
     return render(
         request,
         "recipe/recipe_form.html",
         {
-            # "page": page,
-            # "paginator": paginator
+            "form": form,
+            "used_ingredients": used_ingredients,
+            "edit": edit,
         }
     )
 
