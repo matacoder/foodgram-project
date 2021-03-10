@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
-from recipe.models import Recipe, Ingredient, Amount
+from recipe.models import Recipe, Ingredient
 from recipe.services import save_form_m2m
 from users.models import User
 
@@ -107,7 +107,7 @@ def edit_recipe(request, slug):
         return redirect(url)
     form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
     if request.POST and form.is_valid():
-        recipe.amounts.all().delete()
+        recipe.amounts.all().delete()  # clean ingredients before m2m saving
         save_form_m2m(request, form)
         return redirect(url)
     used_ingredients = recipe.amounts.all()
