@@ -13,6 +13,9 @@
     {% include 'recipe/includes/item_card.html' %}
     {% endfor %}
 </div>
+    {% if page %}
+    {% include 'includes/pagination.html' %}
+    {% endif %}
 {% endblock %}
 {% block js %}
 <script src="/static/js/components/MainCards.js"></script>
