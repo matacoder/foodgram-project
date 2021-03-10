@@ -4,29 +4,32 @@
 
 
 {% block content %}
-<div class="main__header">
-    <h1 class="main__title">Избранное</h1>
-</div>
-{% include 'recipe/includes/tags.html' %}
-<div class="card-list">
-    {% for item in page %}
-    {% include 'recipe/includes/item_card.html' %}
-    {% endfor %}
-</div>
-    {% if page %}
-    {% include 'includes/pagination.html' %}
-    {% endif %}
+    {% include 'includes/nav.html'  with favorite=True %}
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Избранное</h1>
+        </div>
+        {% include 'recipe/includes/tags.html' %}
+        <div class="card-list">
+            {% for item in page %}
+                {% include 'recipe/includes/item_card.html' %}
+            {% endfor %}
+        </div>
+        {% if page %}
+            {% include 'includes/pagination.html' %}
+        {% endif %}
+    </main>
 {% endblock %}
 {% block js %}
-<script src="/static/js/components/MainCards.js"></script>
+    <script src="/static/js/components/MainCards.js"></script>
 
-<script src="/static/js/components/Purchases.js"></script>
-<script src="/static/js/components/Favorites.js"></script>
+    <script src="/static/js/components/Purchases.js"></script>
+    <script src="/static/js/components/Favorites.js"></script>
 
-<script src="/static/js/config/config.js"></script>
-<script src="/static/js/components/CardList.js"></script>
-<script src="/static/js/components/Header.js"></script>
+    <script src="/static/js/config/config.js"></script>
+    <script src="/static/js/components/CardList.js"></script>
+    <script src="/static/js/components/Header.js"></script>
 
-<script src="/static/js/api/Api.js"></script>
-<script src="/static/favorite.js"></script>
+    <script src="/static/js/api/Api.js"></script>
+    <script src="/static/favorite.js"></script>
 {% endblock %}

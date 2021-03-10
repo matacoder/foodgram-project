@@ -6,26 +6,28 @@
 
 
 {% block content %}
-
-    <div class="main__header">
-        <h1 class="main__title">Редактирование/Создание рецепта!</h1>
-    </div>
-    <span class="form-container">
-    <form class="form" method="post" enctype="multipart/form-data">
+    {% include 'includes/nav.html'  with new=True %}
+    <main class="main container">
+        <div class="main__header">
+            <h1 class="main__title">Редактирование/Создание рецепта!</h1>
+        </div>
+        <span class="form-container">
+            <form class="form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
 
-        <!--    name    -->
+                <!--    name    -->
             <div class="form__group">
                 <label for="id_name" class="form__label">Название рецепта</label>
                 <div class="form__field-group">
-                    <input type="text" id="id_name" name="name" class="form__input" value="{{ form.name.value|default_if_none:'' }}">
+                    <input type="text" id="id_name" name="name" class="form__input"
+                           value="{{ form.name.value|default_if_none:'' }}">
                     <span class="form__error">{{ form.name.errors }}</span>
                 </div>
             </div>
 
 
-        <!--     tags as lunch: on; dinner: on        -->
+                <!--     tags as lunch: on; dinner: on        -->
             <div class="form__group">
                 <p class="form__label">Теги</p>
                 <div class="form__field-group">
@@ -55,13 +57,13 @@
                     <span class="form__error">{{ form.tags.errors }}</span>
                 </div>
             </div>
-        <!--        ingredients as
-        nameIngredient_3: Оливки
-        valueIngredient_3: 10
-        unitsIngredient_3: шт.
-        nameIngredient_2: Картошка
-        valueIngredient_2: 5
-        unitsIngredient_2: шт. -->
+                <!--        ingredients as
+                nameIngredient_3: Оливки
+                valueIngredient_3: 10
+                unitsIngredient_3: шт.
+                nameIngredient_2: Картошка
+                valueIngredient_2: 5
+                unitsIngredient_2: шт. -->
             <div class="form__group">
                 <label for="nameIngredient" class="form__label">Ингредиенты</label>
                 <div class="form__field-group">
@@ -101,7 +103,7 @@
                 </div>
             </div>
 
-        <!--        cook_time           -->
+                <!--        cook_time           -->
 
             <div class="form__group">
                 <label for="id_time" class="form__label">Время приготовления</label>
@@ -112,7 +114,7 @@
                 </div>
             </div>
 
-        <!--        description         -->
+                <!--        description         -->
 
             <div class="form__group">
                 <label for="id_description" class="form__label">Описание</label>
@@ -122,7 +124,7 @@
                 </div>
             </div>
 
-        <!--        image               -->
+                <!--        image               -->
 
             <div class="form__group">
                 <span class="form__label">Загрузить фото</span>
@@ -133,7 +135,7 @@
                 </div>
             </div>
 
-        <!--        Save button         -->
+                <!--        Save button         -->
 
             <div class="form__footer">
                 <!--            <input class="button button_style_blue" type="submit" value="Save">-->
@@ -143,7 +145,9 @@
                 {% endif %}
             </div>
         </form>
-    </div>
+            </div>
+        </span>
+    </main>
 {% endblock %}
 {% block js %}
     <script src="/static/js/config/config.js"></script>
