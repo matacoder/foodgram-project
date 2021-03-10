@@ -9,7 +9,7 @@
 </div>
 {% include 'recipe/includes/tags.html' %}
 <div class="card-list">
-    {% for x in '0123456789'|make_list %}
+    {% for item in page %}
     {% include 'recipe/includes/item_card.html' %}
     {% endfor %}
 </div>
