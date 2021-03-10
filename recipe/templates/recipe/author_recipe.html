@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 {% load cache %}
 {% block title %}Последние обновления Автора{% endblock %}
-
+{% load support_tags %}
 
 {% block content %}
+    {% load support_tags %}
+    {% is_following author.id request.user as is_really_following %}
     {% include 'includes/nav.html' %}
     <main class="main container">
         {% csrf_token %}
         <div class="main__header">
-            <h1 class="main__title">Вероника Чернова!</h1>
+            <h1 class="main__title">{{ author.username }}</h1>
             {% include 'recipe/includes/tags.html' %}
 
         </div>
         <!--        <p style="padding: 0 0 2em 0;"><a class="button button_style_light-blue" href="#">Подписаться на автора</a></p>-->
-        <div class="author-subscribe" data-author="323">
+        <div class="author-subscribe" data-author="{{ author.id }}">
             <p style="padding: 0 0 2em 0;">
-                <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>
-                    Подписаться на
-                    автора
-                </button>
+                {% if not is_really_following %}
+                    <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>
+                        Подписаться на
+                        автора
+                    </button>
+                {% else %}
+                    <button class="button button_style_light-blue button_size_subscribe button_style_blue"
+                            name="subscribe">Отписаться от автора
+                    </button>
+                {% endif %}
             </p>
         </div>
         <div class="card-list">
-            {% for x in '0123456789'|make_list %}
+            {% for item in page %}
                 {% include 'recipe/includes/item_card.html' %}
             {% endfor %}
         </div>

@@ -36,23 +36,25 @@ def index(request):
     )
 
 
-def author_recipe(request):
-    # post_list = Post.objects.select_related(
-    #     "author", "group"
-    # ).order_by("-pub_date").all()
-    #
-    # paginator = Paginator(post_list, 10)
-    # # показывать по 10 записей на странице.
-    # page_number = request.GET.get("page")
-    # # переменная в URL с номером запрошенной страницы
-    # page = paginator.get_page(page_number)
-    # # получить записи с нужным смещением
+def author_recipe(request, username):
+    author = get_object_or_404(User, username=username)
+    recipes = Recipe.objects.select_related(
+        "author",
+    ).order_by("-pub_date").filter(author=author)
+
+    paginator = Paginator(recipes, 10)
+    # показывать по 10 записей на странице.
+    page_number = request.GET.get("page")
+    # переменная в URL с номером запрошенной страницы
+    page = paginator.get_page(page_number)
+    # получить записи с нужным смещением
     return render(
         request,
         "recipe/author_recipe.html",
         {
-            # "page": page,
-            # "paginator": paginator
+            "page": page,
+            "paginator": paginator,
+            "author": author,
         }
     )
 

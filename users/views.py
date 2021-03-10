@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, FormView, TemplateView
@@ -43,5 +44,7 @@ class PasswordChangeDoneView(TemplateView):
     template_name = "registration/password_change_done.html"
 
 
+@login_required
 def profile(request):
-    return redirect(reverse('author_recipe'))
+
+    return redirect(reverse('author_recipe', args=(request.user.username,)))
