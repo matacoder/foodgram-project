@@ -1,7 +1,9 @@
 import json
+from functools import reduce
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -14,11 +16,23 @@ from recipe.models import Recipe, Ingredient
 from recipe.services import save_form_m2m
 from users.models import User
 
+ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
+
 
 def index(request):
-    recipes = Recipe.objects.select_related(
-        "author",
-    ).order_by("-pub_date").all()
+    tags = set()
+    if "tags" in request.GET:
+        tags = set(request.GET.getlist('tags'))
+        tags.intersection_update(set(ALLOWED_TAGS))
+    # reduce(lambda x, y: x & y, [Q(tags__name__exact=tag) for tag in tags])
+    if tags:
+        recipes = Recipe.objects.select_related(
+            "author",
+        ).order_by("-pub_date").filter(tags__name__in=tags).distinct()
+    else:
+        recipes = Recipe.objects.select_related(
+            "author",
+        ).order_by("-pub_date").all()
 
     paginator = Paginator(recipes, 10)
     # показывать по 10 записей на странице.
@@ -26,12 +40,14 @@ def index(request):
     # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)
     # получить записи с нужным смещением
+
     return render(
         request,
         "index.html",
         {
             "page": page,
-            "paginator": paginator
+            "paginator": paginator,
+            "tags": tags
         }
     )
 
