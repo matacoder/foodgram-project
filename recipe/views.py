@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
-from recipe.models import Recipe, Ingredient
+from recipe.models import Recipe, Ingredient, Tag
 from recipe.services import save_form_m2m
 from users.models import User
 
@@ -33,7 +33,7 @@ def index(request):
         recipes = Recipe.objects.select_related(
             "author",
         ).order_by("-pub_date").all()
-
+    tags_objects = Tag.objects.all()
     paginator = Paginator(recipes, 10)
     # показывать по 10 записей на странице.
     page_number = request.GET.get("page")
@@ -47,7 +47,8 @@ def index(request):
         {
             "page": page,
             "paginator": paginator,
-            "tags": tags
+            "tags": tags,
+            "tags_objects": tags_objects,
         }
     )
 

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load cache %}
-{% block title %}Последние обновления на сайте{% endblock %}
+{% block title %}Last recipes{% endblock %}
 
 
 {% block content %}
     {% include 'includes/nav.html' with index=True %}
     <main class="main container">
         <div class="main__header">
-            <h1 class="main__title">{% block header %}Главная страница{% endblock %}</h1>
+            <h1 class="main__title">{% block header %}All recipes{% endblock %}</h1>
             {% include 'recipe/includes/tags.html' %}
         </div>
         <div class="card-list">

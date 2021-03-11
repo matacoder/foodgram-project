@@ -1,22 +1,14 @@
+{% load support_tags %}
+
 <ul class="tags">
+    {% for tag in tags_objects %}
     <li class="tags__item">
-        <a id="breakfast"
-           class="tags__checkbox tags__checkbox_style_orange{% if 'breakfast' in tags %} tags__checkbox_active{% endif %}"
+        <a id="{{ tag.name }}"
+           class="tags__checkbox tags__checkbox_style_{{ tag.color }}{% if tag.name in tags %} tags__checkbox_active{% endif %}"
            href="#"></a>
-        <span class="tags__label">Завтрак</span>
+        <span class="tags__label">{{ tag.nice_name }}</span>
     </li>
-    <li class="tags__item">
-        <a id="lunch"
-           class="tags__checkbox tags__checkbox_style_green{% if 'lunch' in tags %} tags__checkbox_active{% endif %}"
-           href="#"></a>
-        <span for="lunch" class="tags__label">Обед</span>
-    </li>
-    <li class="tags__item">
-        <a id="dinner"
-           class="tags__checkbox tags__checkbox_style_purple{% if 'dinner' in tags %} tags__checkbox_active{% endif %}"
-           href="#"></a>
-        <label for="dinner" class="tags__label">Ужин</label>
-    </li>
+    {% endfor %}
 </ul>
 
 {#{% for key, values in request.GET.lists %}#}
