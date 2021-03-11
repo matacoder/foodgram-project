@@ -4,13 +4,15 @@
 {% load support_tags %}
 
 {% block content %}
+    {% if user.is_authenticated %}
     {% load support_tags %}
     {% is_following author.id request.user as is_really_following %}
+    {% endif %}
     {% include 'includes/nav.html' %}
     <main class="main container">
         {% csrf_token %}
         <div class="main__header">
-            <h1 class="main__title">{{ author.username }}</h1>
+            <h1 class="main__title">{{ author }}</h1>
             {% include 'recipe/includes/tags.html' %}
 
         </div>

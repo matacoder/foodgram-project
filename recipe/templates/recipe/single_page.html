@@ -8,9 +8,11 @@
     {% include 'includes/nav.html' %}
     <main class="main container">
         {% csrf_token %}
-        {% is_favorite recipe request.user as is_really_favorite %}
-        {% is_listed recipe request.user as is_really_listed %}
-        {% is_following recipe.author.pk request.user as is_really_following %}
+        {% if user.is_authenticated %}
+            {% is_favorite recipe request.user as is_really_favorite %}
+            {% is_listed recipe request.user as is_really_listed %}
+            {% is_following recipe.author.pk request.user as is_really_following %}
+        {% endif %}
         <div class="single-card" data-id="{{ recipe.pk }}" data-author="{{ recipe.author.pk }}">
             <img src="/media/{{ recipe.image }}" alt="какой-то текст" class="single-card__image">
             <div class="single-card__info">
@@ -33,10 +35,16 @@
                 <div class="single-card__items single-card__items_column">
                     <p class="single-card__text"><span class="icon-time"></span> {{ recipe.cook_time }} мин.</p>
                     <ul class="single-card__items">
-                        <li class="single-card__item"><p class="single-card__text"><span
-                                class="icon-user"></span> {{ recipe.author.username }}</p></li>
-                        <li class="single-card__item"><a style="margin-left: 2.5em" href="{% url "edit_recipe" recipe.slug %}" class="single-card__text">Редактировать
-                            рецепт</a></li>
+                        <a href="{% url "author_recipe" recipe.author.username %}"><li class="single-card__item"><p class="single-card__text"><span
+                            class="icon-user"></span> {{ recipe.author }}</p></li></a>
+                        {% if user.is_authenticated %}
+                            {% if request.user == recipe.author %}
+                                <li class="single-card__item"><a style="margin-left: 2.5em"
+                                                                 href="{% url "edit_recipe" recipe.slug %}"
+                                                                 class="single-card__text">Редактировать
+                                    рецепт</a></li>
+                            {% endif %}
+                        {% endif %}
                     </ul>
                 </div>
                 <ul class="single-card__items">
