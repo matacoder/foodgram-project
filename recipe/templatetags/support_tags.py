@@ -33,3 +33,19 @@ def is_listed(recipe, user):
 @register.simple_tag
 def is_following(user_id, user):
     return user.following.filter(id=user_id).exists()
+
+
+@register.simple_tag
+def add_get_param(current_url, tag):
+    if '?' in current_url:
+        return f'{current_url}&tags={tag}'
+    return f'{current_url}?tags={tag}'
+
+
+@register.simple_tag
+def delete_get_param(tags=[], param=""):
+    tags = list(tags)
+    tags.remove(param)
+    params = '&'.join(f"tags={tag}" for tag in tags)
+    return f"?{params}"
+
