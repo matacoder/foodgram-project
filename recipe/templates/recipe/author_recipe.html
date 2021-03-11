@@ -5,8 +5,8 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-    {% load support_tags %}
-    {% is_following author.id request.user as is_really_following %}
+        {% load support_tags %}
+        {% is_following author.id request.user as is_really_following %}
     {% endif %}
     {% include 'includes/nav.html' %}
     <main class="main container">
