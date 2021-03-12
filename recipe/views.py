@@ -17,6 +17,7 @@ from recipe.services import save_form_m2m
 from users.models import User
 
 ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
+PER_PAGE = 3
 
 
 def index(request):
@@ -34,7 +35,7 @@ def index(request):
             "author",
         ).order_by("-pub_date").all()
     tags_objects = Tag.objects.all()
-    paginator = Paginator(recipes, 10)
+    paginator = Paginator(recipes, PER_PAGE)
     # показывать по 10 записей на странице.
     page_number = request.GET.get("page")
     # переменная в URL с номером запрошенной страницы
@@ -72,6 +73,7 @@ def author_recipe(request, username):
             "page": page,
             "paginator": paginator,
             "author": author,
+            "tags_objects": Tag.objects.all(),
         }
     )
 
@@ -93,7 +95,8 @@ def favorite(request):
         "recipe/favorite.html",
         {
             "page": page,
-            "paginator": paginator
+            "paginator": paginator,
+            "tags_objects": Tag.objects.all(),
         }
     )
 
