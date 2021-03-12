@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load cache %}
-{% block title %}Последние обновления Автора{% endblock %}
+{% block title %}Last updates of {{ author.first_name }}{% endblock %}
 {% load support_tags %}
 
 {% block content %}
@@ -16,17 +16,15 @@
             {% include 'recipe/includes/tags.html' %}
 
         </div>
-        <!--        <p style="padding: 0 0 2em 0;"><a class="button button_style_light-blue" href="#">Подписаться на автора</a></p>-->
         <div class="author-subscribe" data-author="{{ author.id }}">
             <p style="padding: 0 0 2em 0;">
                 {% if not is_really_following %}
                     <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>
-                        Подписаться на
-                        автора
+                        Subscribe
                     </button>
                 {% else %}
                     <button class="button button_style_light-blue button_size_subscribe button_style_blue"
-                            name="subscribe">Отписаться от автора
+                            name="subscribe">Unsubscribe
                     </button>
                 {% endif %}
             </p>

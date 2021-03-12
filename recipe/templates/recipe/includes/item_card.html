@@ -2,29 +2,32 @@
 {% is_listed item request.user as dont_show_add_to_cart %}
 {% csrf_token %}
 <div class="card" data-id="{{ item.id }}">
-    <a href="{%  url "single" item.slug %}" class="link" target="_blank"><img src="/media/{{ item.image }}" alt="Какой-то текст"
-                                                  class="card__image"></a>
+    <a href="{% url "single" item.slug %}" class="link" target="_blank"><img src="/media/{{ item.image }}"
+                                                                             alt="Какой-то текст"
+                                                                             class="card__image"></a>
     <div class="card__body">
-        <a class="card__title link" href="{%  url "single" item.slug %}" target="_blank">{{ item.name }}</a>
+        <a class="card__title link" href="{% url "single" item.slug %}" target="_blank">{{ item.name }}</a>
         <ul class="card__items">
             {% for tag in item.tags.all %}
                 <li class="card__item"><span class="badge badge_style_{{ tag.color }}">{{ tag.nice_name }}</span></li>
             {% endfor %}
         </ul>
         <div class="card__items card__items_column">
-            <p class="card__text"><span class="icon-time"></span> {{ item.cook_time }} мин.</p>
-            <p class="card__text"><span class="icon-user"></span> <a href="#" style="color: black">{{ item.author }}</a>
+            <p class="card__text"><span class="icon-time"></span> {{ item.cook_time }} min.</p>
+            <p class="card__text"><span class="icon-user"></span> <a
+                    href={% url "author_recipe" item.author.username %} style="color:
+                    black">{{ item.author.first_name }}</a>
             </p>
         </div>
     </div>
     <div class="card__footer">
         {% if dont_show_add_to_cart %}
             <button class="button button_style_light-blue-outline" name="purchases"><span
-                    class="icon-check button__icon"></span>Рецепт добавлен
+                    class="icon-check button__icon"></span>Remove from cart
             </button>
         {% else %}
             <button class="button button_style_light-blue" name="purchases" data-out><span
-                    class="icon-plus button__icon"></span>Добавить в покупки
+                    class="icon-plus button__icon"></span>Add to cart
             </button>
         {% endif %}
     </div>

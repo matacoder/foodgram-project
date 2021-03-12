@@ -2,11 +2,11 @@
 {% block main_css %}/static/pages/shopList.css{% endblock %}
 
 {% load cache %}
-{% block title %}Избранное{% endblock %}
+{% block title %}Cart{% endblock %}
 
 
 {% block content %}
-    {% include 'includes/nav.html'  with shop_list=True  %}
+    {% include 'includes/nav.html'  with shop_list=True %}
     <main class="main container">
         {% csrf_token %}
         <div class="main__header">

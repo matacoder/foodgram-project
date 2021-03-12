@@ -13,49 +13,52 @@
         </div>
         <span class="form-container">
             <form class="form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+                {% csrf_token %}
 
 
                 <!--    name    -->
-            <div class="form__group">
-                <label for="id_name" class="form__label">Title</label>
-                <div class="form__field-group">
-                    <input type="text" id="id_name" name="name" class="form__input"
-                           value="{{ form.name.value|default_if_none:'' }}">
-                    <span class="form__error">{{ form.name.errors }}</span>
+                <div class="form__group">
+                    <label for="id_name" class="form__label">Title</label>
+                    <div class="form__field-group">
+                        <input type="text" id="id_name" name="name" class="form__input"
+                               value="{{ form.name.value|default_if_none:'' }}">
+                        <span class="form__error">{{ form.name.errors }}</span>
+                    </div>
                 </div>
-            </div>
 
 
                 <!--     tags as lunch: on; dinner: on        -->
-            <div class="form__group">
-                <p class="form__label">Tags</p>
-                <div class="form__field-group">
-                    <div class="tags">
+                <div class="form__group">
+                    <p class="form__label">Tags</p>
+                    <div class="form__field-group">
+                        <div class="tags">
 
-                        <!--                    here cycle -->
-                        <div class="tags__item">
-                            <input type="checkbox" name="tags" id="id_tags_0" value="1"
-                                   class="tags__checkbox tags__checkbox_style_orange" {% if 1 in form.tags.value %}checked{% endif %}>
-                            <label for="id_tags_0" class="tags__label">Breakfast</label>
-                        </div>
-                        <div class="tags__item">
-                            <input type="checkbox" name="tags" id="id_tags_1" value="2"
-                                   class="tags__checkbox tags__checkbox_style_green" {% if 2 in form.tags.value %}checked{% endif %}>
-                            <label for="id_tags_1" class="tags__label">Lunch</label>
-                        </div>
-                        <div class="tags__item">
-                            <input type="checkbox" name="tags" id="id_tags_2" value="3"
-                                   class="tags__checkbox tags__checkbox_style_purple" {% if 3 in form.tags.value %}checked{% endif %}>
-                            <label for="id_tags_2" class="tags__label">Dinner</label>
-                        </div>
+                            <!--                    here cycle -->
+                            <div class="tags__item">
+                                <input type="checkbox" name="tags" id="id_tags_0" value="1"
+                                       class="tags__checkbox tags__checkbox_style_orange"
+                                       {% if 1 in form.tags.value %}checked{% endif %}>
+                                <label for="id_tags_0" class="tags__label">Breakfast</label>
+                            </div>
+                            <div class="tags__item">
+                                <input type="checkbox" name="tags" id="id_tags_1" value="2"
+                                       class="tags__checkbox tags__checkbox_style_green"
+                                       {% if 2 in form.tags.value %}checked{% endif %}>
+                                <label for="id_tags_1" class="tags__label">Lunch</label>
+                            </div>
+                            <div class="tags__item">
+                                <input type="checkbox" name="tags" id="id_tags_2" value="3"
+                                       class="tags__checkbox tags__checkbox_style_purple"
+                                       {% if 3 in form.tags.value %}checked{% endif %}>
+                                <label for="id_tags_2" class="tags__label">Dinner</label>
+                            </div>
 
-                        <!--                    here cycle end -->
+                            <!--                    here cycle end -->
 
+                        </div>
+                        <span class="form__error">{{ form.tags.errors }}</span>
                     </div>
-                    <span class="form__error">{{ form.tags.errors }}</span>
                 </div>
-            </div>
                 <!--        ingredients as
                 nameIngredient_3: Оливки
                 valueIngredient_3: 10
@@ -63,91 +66,92 @@
                 nameIngredient_2: Картошка
                 valueIngredient_2: 5
                 unitsIngredient_2: шт. -->
-            <div class="form__group">
-                <label for="nameIngredient" class="form__label">Ingredients</label>
-                <div class="form__field-group">
-                    <div class="form__field-group-ingredientes">
-                        <div class="form__dropdown">
-                            <input type="text" id="nameIngredient" class="form__input">
-                            <div class="form__dropdown-items"></div>
+                <div class="form__group">
+                    <label for="nameIngredient" class="form__label">Ingredients</label>
+                    <div class="form__field-group">
+                        <div class="form__field-group-ingredientes">
+                            <div class="form__dropdown">
+                                <input type="text" id="nameIngredient" class="form__input">
+                                <div class="form__dropdown-items"></div>
+                            </div>
+                            <input type="number" id="cantidad" class="form__input" min="0">
+                            <label for="cantidad" class="form__label" id="cantidadVal">pcs</label>
                         </div>
-                        <input type="number" id="cantidad" class="form__input" min="0">
-                        <label for="cantidad" class="form__label" id="cantidadVal">pcs</label>
-                    </div>
 
-                    <div class="form__field-group-ingredientes-container">
+                        <div class="form__field-group-ingredientes-container">
 
-                        <!--                    ingredients itself      -->
+                            <!--                    ingredients itself      -->
 
-                        {% for ingredient in used_ingredients %}
-                            <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
-                            <span> {{ ingredient.ingredient.name }} {{ ingredient.amount }} {{ ingredient.ingredient.measure }}</span>
-                            <span class="form__field-item-delete"></span>
-                            <input id="nameIngredient_{{ forloop.counter }}" name="nameIngredient_{{ forloop.counter }}"
-                                   type="hidden" value="{{ ingredient.ingredient.name }}">
-                            <input id="valueIngredient_{{ forloop.counter }}"
-                                   name="valueIngredient_{{ forloop.counter }}" type="hidden"
-                                   value="{{ ingredient.amount }}">
-                            <input id="unitsIngredient_{{ forloop.counter }}"
-                                   name="unitsIngredient_{{ forloop.counter }}" type="hidden"
-                                   value="{{ ingredient.ingredient.measure }}">
+                            {% for ingredient in used_ingredients %}
+                                <div class="form__field-item-ingredient" id="ing_{{ forloop.counter }}">
+                                <span> {{ ingredient.ingredient.name }} {{ ingredient.amount }} {{ ingredient.ingredient.measure }}</span>
+                                <span class="form__field-item-delete"></span>
+                                <input id="nameIngredient_{{ forloop.counter }}"
+                                       name="nameIngredient_{{ forloop.counter }}"
+                                       type="hidden" value="{{ ingredient.ingredient.name }}">
+                                <input id="valueIngredient_{{ forloop.counter }}"
+                                       name="valueIngredient_{{ forloop.counter }}" type="hidden"
+                                       value="{{ ingredient.amount }}">
+                                <input id="unitsIngredient_{{ forloop.counter }}"
+                                       name="unitsIngredient_{{ forloop.counter }}" type="hidden"
+                                       value="{{ ingredient.ingredient.measure }}">
+                            </div>
+                            {% endfor %}
+
+
+                            <!--                    demo data -->
+
                         </div>
-                        {% endfor %}
-
-
-                        <!--                    demo data -->
-
+                        <span class="form__ingredient-link" id="addIng">Add this ingredient</span>
+                        <span class="form__error">{{ form.ingredients.errors }}</span>
                     </div>
-                    <span class="form__ingredient-link" id="addIng">Add this ingredient</span>
-                    <span class="form__error">{{ form.ingredients.errors }}</span>
                 </div>
-            </div>
 
                 <!--        cook_time           -->
 
-            <div class="form__group">
-                <label for="id_time" class="form__label">Cooking time</label>
-                <div class="form__field-group form__field-group_time">
-                    <input type="text" id="id_time" name="cook_time" class="form__input"
-                           value="{{ form.cook_time.value|default_if_none:'' }}">
-                    <label for="id_time" class="form__label">minutes</label>
-                    <span class="form__error">{{ form.cooking_time.errors }}</span>
+                <div class="form__group">
+                    <label for="id_time" class="form__label">Cooking time</label>
+                    <div class="form__field-group form__field-group_time">
+                        <input type="text" id="id_time" name="cook_time" class="form__input"
+                               value="{{ form.cook_time.value|default_if_none:'' }}">
+                        <label for="id_time" class="form__label">minutes</label>
+                        <span class="form__error">{{ form.cooking_time.errors }}</span>
+                    </div>
                 </div>
-            </div>
 
                 <!--        description         -->
 
-            <div class="form__group">
-                <label for="id_description" class="form__label">Description</label>
-                <div class="form__field-group">
-                    <textarea name="description" id="id_description" rows="8"
-                              class="form__textarea">{{ form.description.value|default_if_none:'' }}</textarea>
-                    <span class="form__error">{{ form.description.errors }}</span>
+                <div class="form__group">
+                    <label for="id_description" class="form__label">Description</label>
+                    <div class="form__field-group">
+                        <textarea name="description" id="id_description" rows="8"
+                                  class="form__textarea">{{ form.description.value|default_if_none:'' }}</textarea>
+                        <span class="form__error">{{ form.description.errors }}</span>
+                    </div>
                 </div>
-            </div>
 
                 <!--        image               -->
 
-            <div class="form__group">
-                <span class="form__label">Upload Photo</span>
-                <div class="form__field-group">
-                    <label for="id_file" class="form__file-button">{% if form.image.value %} Replace image: {{ form.image.value }}{% else %}Choose image{% endif %}</label>
-                    <input type="file" class="form__file" name="image" id="id_file">
-                    <span class="form__error">{{ form.image.errors }}</span>
+                <div class="form__group">
+                    <span class="form__label">Upload Photo</span>
+                    <div class="form__field-group">
+                        <label for="id_file" class="form__file-button">{% if form.image.value %} Replace image:
+                            {{ form.image.value }}{% else %}Choose image{% endif %}</label>
+                        <input type="file" class="form__file" name="image" id="id_file">
+                        <span class="form__error">{{ form.image.errors }}</span>
+                    </div>
                 </div>
-            </div>
 
                 <!--        Save button         -->
 
-            <div class="form__footer">
-                <!--            <input class="button button_style_blue" type="submit" value="Save">-->
-                <button class="button button_style_blue">Save</button>
-                {% if edit %}
-                    <a style="margin-left: 2.5em" href="#" class="form__ingredient-link">Delete</a>
-                {% endif %}
-            </div>
-        </form>
-            </div>
+                <div class="form__footer">
+                    <button class="button button_style_blue">Save</button>
+                    {% if edit %}
+                        <a style="margin-left: 2.5em" href="#" class="form__ingredient-link">Delete</a>
+                    {% endif %}
+                </div>
+            </form>
+
         </span>
     </main>
 {% endblock %}
