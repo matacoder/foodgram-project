@@ -20,12 +20,17 @@ ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 PER_PAGE = 3
 
 
-def index(request):
+def get_tags_from(request):
     tags = set()
     if "tags" in request.GET:
         tags = set(request.GET.getlist('tags'))
         tags.intersection_update(set(ALLOWED_TAGS))
-    # reduce(lambda x, y: x & y, [Q(tags__name__exact=tag) for tag in tags])
+    return tags
+
+
+def index(request):
+    tags = get_tags_from(request)
+
     if tags:
         recipes = Recipe.objects.select_related(
             "author",
@@ -80,16 +85,20 @@ def author_recipe(request, username):
 
 @login_required()
 def favorite(request):
-    recipes = request.user.favorite_recipes.select_related(
-        "author",
-    ).order_by("-pub_date").all()
+    tags = get_tags_from(request)
+    if tags:
+        recipes = request.user.favorite_recipes.select_related(
+            "author",
+        ).order_by("-pub_date").filter(tags__name__in=tags).distinct()
+    else:
+        recipes = request.user.favorite_recipes.select_related(
+            "author",
+        ).order_by("-pub_date").all()
 
-    paginator = Paginator(recipes, 10)
-    # показывать по 10 записей на странице.
+    paginator = Paginator(recipes, PER_PAGE)
     page_number = request.GET.get("page")
-    # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)
-    # получить записи с нужным смещением
+
     return render(
         request,
         "recipe/favorite.html",
@@ -97,6 +106,7 @@ def favorite(request):
             "page": page,
             "paginator": paginator,
             "tags_objects": Tag.objects.all(),
+            "tags": tags,
         }
     )
 
