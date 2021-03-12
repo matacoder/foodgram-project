@@ -1,10 +1,10 @@
 from decimal import Decimal
 
-from django.db import transaction, IntegrityError
+from django.db import IntegrityError, transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 
-from recipe.models import Ingredient, Amount
+from recipe.models import Amount, Ingredient
 
 
 def save_form_m2m(request, form):
@@ -40,5 +40,6 @@ def check_and_convert_to_objects(ingredients, recipe):
     for name, amount in ingredients.items():
         amount = Decimal(amount.replace(',', '.'))
         ingredient = get_object_or_404(Ingredient, name=name)
-        amounts.append(Amount(recipe=recipe, ingredient=ingredient, amount=amount))
+        amounts.append(
+            Amount(recipe=recipe, ingredient=ingredient, amount=amount))
     return amounts

@@ -29,15 +29,21 @@ class Recipe(models.Model):
     """ Recipe model """
 
     name = models.CharField(max_length=255)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name="recipes")
     tags = models.ManyToManyField(Tag, related_name="recipes")
-    ingredients = models.ManyToManyField(Ingredient, through="Amount", related_name="recipes")
+    ingredients = models.ManyToManyField(
+        Ingredient, through="Amount", related_name="recipes"
+    )
     description = models.TextField(max_length=1000)
     cook_time = models.IntegerField()
-    image = models.ImageField(upload_to="recipes/", blank=True, null=True)
-    slug = AutoSlugField(populate_from="name", allow_unicode=True, unique=True, editable=True)
-    favorite = models.ManyToManyField(User, blank=True, related_name="favorite_recipes")
-    listed = models.ManyToManyField(User, blank=True, related_name="listed_recipes")
+    image = models.ImageField(upload_to="recipes/", blank=True)
+    slug = AutoSlugField(populate_from="name", allow_unicode=True, unique=True,
+                         editable=True)
+    favorite = models.ManyToManyField(User, blank=True,
+                                      related_name="favorite_recipes")
+    listed = models.ManyToManyField(User, blank=True,
+                                    related_name="listed_recipes")
     pub_date = models.DateTimeField(
         verbose_name="Дата публикации",
         auto_now_add=True,
@@ -55,45 +61,15 @@ class Recipe(models.Model):
 
 class Amount(models.Model):
     """ Support model for Ingredient&Recipe ManyToMany relation """
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="amounts")
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name="amounts")
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
+                               related_name="amounts")
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE,
+                                   related_name="amounts")
     amount = models.DecimalField(
         max_digits=5,
         decimal_places=1,
         validators=[MinValueValidator(1)]
     )
 
-
-"""
-Database blueprint
-
-
-AbstractUser
-- following Many2Many AbstractUser
-
-Ingredient
-- name
-- measure
-
-Recipe
-- name
-- user id
-- Tags ManyToMany Tags
-- Recipe ManyToMay Ingredient through Amount
-- description
-- cook_time
-- photo
-- slug
-- favorite ManyToMany AbstractUser
-- listed ManyToMany AbstractUser
-- pub_date (auto)
-
-Amount
-- id recipe
-- id ingredient
-- numeric measure
-
-Tags
-- name
-
-"""
+    def __str__(self):
+        return f'Amount: {self.ingredient} by {self.amount}'

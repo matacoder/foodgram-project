@@ -1,18 +1,14 @@
 import json
-from functools import reduce
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
-
-# Create your views here.
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
-from recipe.models import Recipe, Ingredient, Tag
+from recipe.models import Ingredient, Recipe, Tag
 from recipe.services import save_form_m2m
 from users.models import User
 
@@ -66,7 +62,8 @@ def author_recipe(request, username):
     if tags:
         recipes = Recipe.objects.select_related(
             "author",
-        ).order_by("-pub_date").filter(tags__name__in=tags, author=author).distinct()
+        ).order_by("-pub_date").filter(tags__name__in=tags,
+                                       author=author).distinct()
     else:
         recipes = Recipe.objects.select_related(
             "author",
@@ -141,7 +138,8 @@ def edit_recipe(request, slug):
     )
     if recipe.author != request.user:
         return redirect(url)
-    form = RecipeForm(request.POST or None, files=request.FILES or None, instance=recipe)
+    form = RecipeForm(request.POST or None, files=request.FILES or None,
+                      instance=recipe)
     if request.POST and form.is_valid():
         recipe.amounts.all().delete()  # clean ingredients before m2m saving
         save_form_m2m(request, form)
@@ -190,6 +188,7 @@ def single(request, slug):
             "recipe": recipe
         }
     )
+
 
 @login_required()
 def my_follow(request):
@@ -283,7 +282,8 @@ def ingredients(request):
     if request.method == "GET":
         query = request.GET.get("query", "")
         if query:
-            found_ingredients = Ingredient.objects.filter(name__startswith=query)
+            found_ingredients = Ingredient.objects.filter(
+                name__startswith=query)
             for found_ingredient in found_ingredients:
                 ingredient_api = {
                     "title": found_ingredient.name,
