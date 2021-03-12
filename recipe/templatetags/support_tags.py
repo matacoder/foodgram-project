@@ -3,6 +3,7 @@ from django import template
 from recipe.models import Recipe
 
 register = template.Library()
+AUTHOR_ITEMS = 3
 
 
 @register.simple_tag
@@ -66,3 +67,13 @@ def switch_page(request, page_number):
     if "tags" in path and "page" not in path:
         return f'?page={page_number}&{path[2:]}'
     return f'?page={page_number}'
+
+
+@register.simple_tag
+def get_recipes_of(author):
+    return Recipe.objects.filter(author=author)[:AUTHOR_ITEMS]
+
+
+@register.simple_tag
+def get_total_numbers_of_recipes(author):
+    return Recipe.objects.filter(author=author).count()
