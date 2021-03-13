@@ -1,11 +1,13 @@
+import io
 import json
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from reportlab.pdfgen import canvas
 
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
@@ -127,7 +129,7 @@ def new_recipe(request):
         "recipe/recipe_form.html",
         {
             "form": form,
-         },
+        },
     )
 
 
@@ -304,3 +306,26 @@ def ingredients(request):
                 }
                 data.append(ingredient_api)
     return JsonResponse(data, safe=False)  # Serialize non-dict object
+
+
+@login_required()
+def download_as_pdf(request):
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    for x in range(10):
+        p.drawString(100, -100 * (x + 1), f"Hello world {x}.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
