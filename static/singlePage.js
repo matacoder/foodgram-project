@@ -8,11 +8,11 @@ const configButton = {
         attr: 'data-out',
         default: {
             class: 'button_style_blue',
-            text: '<span class="icon-plus button__icon"></span>Добавить в покупки'
+            text: '<span class="icon-plus button__icon"></span>Add to cart'
         },
         active: {
             class: 'button_style_light-blue-outline',
-            text: `<span class="icon-check button__icon"></span> Рецепт добавлен`
+            text: `<span class="icon-check button__icon"></span> Remove from cart`
         }
     },
     favorites: {
@@ -28,11 +28,11 @@ const configButton = {
         attr: 'data-out',
         default: {
             class: 'button_style_blue',
-            text: 'Подписаться на автора'
+            text: 'Subscribe'
         },
         active: {
             class: 'button_style_blue',
-            text: `Отписаться от автора`
+            text: `Unsubscribe`
         }
     }
 }

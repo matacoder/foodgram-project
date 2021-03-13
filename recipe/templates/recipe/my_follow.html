@@ -26,7 +26,8 @@
                             {% for recipe in recipes %}
                                 <li class="card-user__item">
                                     <div class="recipe">
-                                        <img src="/media/{{ recipe.image }}" alt="какой-то-текст"
+                                        <img src="/media/{{ recipe.image }}"
+                                             alt="{{ recipe.name }}"
                                              class="recipe__image">
                                         <h3 class="recipe__title">{{ recipe.name }}</h3>
                                         <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cook_time }}
