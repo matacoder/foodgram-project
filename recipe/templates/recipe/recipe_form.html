@@ -147,7 +147,9 @@
                 <div class="form__footer">
                     <button class="button button_style_blue">Save</button>
                     {% if edit %}
-                        <a style="margin-left: 2.5em" href="#" class="form__ingredient-link">Delete</a>
+                        <a style="margin-left: 2.5em" href="
+{{ request.get_full_path }}delete/"
+                           class="form__ingredient-link">Delete</a>
                     {% endif %}
                 </div>
             </form>

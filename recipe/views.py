@@ -125,8 +125,21 @@ def new_recipe(request):
     return render(
         request,
         "recipe/recipe_form.html",
-        {"form": form},
+        {
+            "form": form,
+         },
     )
+
+
+@login_required()
+def delete_recipe(request, slug):
+    recipe = get_object_or_404(Recipe, slug=slug)
+    url = reverse(
+        "index",
+    )
+    if recipe.author == request.user:
+        recipe.delete()
+    return redirect(url)
 
 
 @login_required()
