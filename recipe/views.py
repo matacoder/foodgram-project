@@ -8,9 +8,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from reportlab.pdfgen import canvas
-
+from reportlab.lib.units import inch
 from recipe.forms import RecipeForm
-from recipe.models import Ingredient, Recipe, Tag
+from recipe.models import Ingredient, Recipe, Tag, Amount
 from recipe.services import save_form_m2m
 from users.models import User
 
@@ -310,20 +310,35 @@ def ingredients(request):
 
 @login_required()
 def download_as_pdf(request):
+    recipes = request.user.listed_recipes.all()
+    amounts = Amount.objects.filter(recipe__in=recipes)
+    combined_ingredients = {}
+    for amount in amounts:
+        amount_name = f"{amount.ingredient.name}, {amount.ingredient.measure}"
+        if amount_name in combined_ingredients:
+            combined_ingredients[amount_name] += amount.amount
+        else:
+            combined_ingredients[amount_name] = amount.amount
+
     # Create a file-like buffer to receive PDF data.
     buffer = io.BytesIO()
 
     # Create the PDF object, using the buffer as its "file."
-    p = canvas.Canvas(buffer)
+    ingredients_to_buy = canvas.Canvas(buffer)
 
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
-    for x in range(10):
-        p.drawString(100, -100 * (x + 1), f"Hello world {x}.")
+
+    text_object = ingredients_to_buy.beginText()
+    text_object.setTextOrigin(inch, 11 * inch)
+    text_object.setFont("Helvetica", 14)
+    for key, value in combined_ingredients.items():
+        text_object.textLine(f"{key}: {value}")
+    ingredients_to_buy.drawText(text_object)
 
     # Close the PDF object cleanly, and we're done.
-    p.showPage()
-    p.save()
+    ingredients_to_buy.showPage()
+    ingredients_to_buy.save()
 
     # FileResponse sets the Content-Disposition header so that browsers
     # present the option to save the file.
