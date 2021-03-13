@@ -17,17 +17,26 @@
                 {% for item in page %}
                     <li class="shopping-list__item" data-id="{{ item.id }}">
                         <div class="recipe recipe_reverse">
-                            <img src="/media/{{ item.image }}" alt="какой-то текст"
+                            <img src="/media/{{ item.image }}"
+                                 alt="какой-то текст"
                                  class="recipe__image recipe__image_big">
                             <h3 class="recipe__title">{{ item.name }}</h3>
-                            <p class="recipe__text"><span class="icon-time"></span> {{ item.cook_time }} min.</p>
+                            <p class="recipe__text"><span
+                                    class="icon-time"></span> {{ item.cook_time }}
+                                min.</p>
                         </div>
-                        <a href="#" class="shopping-list__button link">remove from cart</a>
+                        <a href="#" class="shopping-list__button link">remove
+                            from cart</a>
                     </li>
                 {% endfor %}
             </ul>
             <a href="{% url "pdf" %}">
-                <button class="button button_style_blue">Download as PDF</button>
+                <button class="button button_style_blue">Download as PDF
+                </button>
+            </a>
+            <a href="{% url "csv" %}">
+                <button class="button button_style_blue">Download as CSV
+                </button>
             </a>
 
 

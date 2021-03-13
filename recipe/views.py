@@ -1,17 +1,16 @@
-import io
+import csv
 import json
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse, FileResponse
+from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
+
 from recipe.forms import RecipeForm
-from recipe.models import Ingredient, Recipe, Tag, Amount
-from recipe.services import save_form_m2m
+from recipe.models import Ingredient, Recipe, Tag
+from recipe.services import combine_ingredients, generate_pdf, save_form_m2m
 from users.models import User
 
 ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
@@ -310,37 +309,23 @@ def ingredients(request):
 
 @login_required()
 def download_as_pdf(request):
-    recipes = request.user.listed_recipes.all()
-    amounts = Amount.objects.filter(recipe__in=recipes)
-    combined_ingredients = {}
-    for amount in amounts:
-        amount_name = f"{amount.ingredient.name}, {amount.ingredient.measure}"
-        if amount_name in combined_ingredients:
-            combined_ingredients[amount_name] += amount.amount
-        else:
-            combined_ingredients[amount_name] = amount.amount
+    combined_ingredients = combine_ingredients(request)
+    buffer = generate_pdf(combined_ingredients)
 
-    # Create a file-like buffer to receive PDF data.
-    buffer = io.BytesIO()
-
-    # Create the PDF object, using the buffer as its "file."
-    ingredients_to_buy = canvas.Canvas(buffer)
-
-    # Draw things on the PDF. Here's where the PDF generation happens.
-    # See the ReportLab documentation for the full list of functionality.
-
-    text_object = ingredients_to_buy.beginText()
-    text_object.setTextOrigin(inch, 11 * inch)
-    text_object.setFont("Helvetica", 14)
-    for key, value in combined_ingredients.items():
-        text_object.textLine(f"{key}: {value}")
-    ingredients_to_buy.drawText(text_object)
-
-    # Close the PDF object cleanly, and we're done.
-    ingredients_to_buy.showPage()
-    ingredients_to_buy.save()
-
-    # FileResponse sets the Content-Disposition header so that browsers
-    # present the option to save the file.
-    buffer.seek(0)
     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+
+
+@login_required()
+def download_as_csv(request):
+    combined_ingredients = combine_ingredients(request)
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="ingredients.csv"'
+    response.write(u'\ufeff'.encode('utf8'))
+
+    writer = csv.writer(response)
+    for key, value in combined_ingredients.items():
+        writer.writerow([key, value])
+
+    return response
