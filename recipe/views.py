@@ -10,24 +10,15 @@ from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
-from recipe.services import combine_ingredients, generate_pdf, save_form_m2m
+from recipe.services import (combine_ingredients, generate_pdf, get_tags_from,
+                             save_form_m2m)
 from users.models import User
 
-ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 PER_PAGE = 3
-
-
-def get_tags_from(request):
-    tags = set()
-    if "tags" in request.GET:
-        tags = set(request.GET.getlist('tags'))
-        tags.intersection_update(set(ALLOWED_TAGS))
-    return tags
 
 
 def index(request):
     tags = get_tags_from(request)
-
     if tags:
         recipes = Recipe.objects.select_related(
             "author",
@@ -36,13 +27,10 @@ def index(request):
         recipes = Recipe.objects.select_related(
             "author",
         ).order_by("-pub_date").all()
-    tags_objects = Tag.objects.all()
+
     paginator = Paginator(recipes, PER_PAGE)
-    # показывать по 10 записей на странице.
     page_number = request.GET.get("page")
-    # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)
-    # получить записи с нужным смещением
 
     return render(
         request,
@@ -51,7 +39,7 @@ def index(request):
             "page": page,
             "paginator": paginator,
             "tags": tags,
-            "tags_objects": tags_objects,
+            "tags_objects": Tag.objects.all(),
         }
     )
 
@@ -178,11 +166,9 @@ def shoplist(request):
     ).order_by("-pub_date").all()
 
     paginator = Paginator(recipes, 10)
-    # показывать по 10 записей на странице.
     page_number = request.GET.get("page")
-    # переменная в URL с номером запрошенной страницы
     page = paginator.get_page(page_number)
-    # получить записи с нужным смещением
+
     return render(
         request,
         "recipe/shop_list.html",
@@ -208,11 +194,16 @@ def single(request, slug):
 def my_follow(request):
     authors = request.user.following.all()
 
+    paginator = Paginator(authors, PER_PAGE)
+    page_number = request.GET.get("page")
+    page = paginator.get_page(page_number)
+
     return render(
         request,
         "recipe/my_follow.html",
         {
-            "authors": authors,
+            "authors": page,
+            "paginator": paginator
         }
     )
 

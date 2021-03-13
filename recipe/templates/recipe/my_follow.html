@@ -30,26 +30,33 @@
                                              alt="{{ recipe.name }}"
                                              class="recipe__image">
                                         <h3 class="recipe__title">{{ recipe.name }}</h3>
-                                        <p class="recipe__text"><span class="icon-time"></span> {{ recipe.cook_time }}
+                                        <p class="recipe__text"><span
+                                                class="icon-time"></span> {{ recipe.cook_time }}
                                             min.</p>
                                     </div>
                                 </li>
                             {% endfor %}
 
                             <li class="card-user__item">
-                                <a href="{% url "author_recipe" author.username %} }}" class="card-user__link link">Total {% get_total_numbers_of_recipes author %}
+                                <a href="{% url "author_recipe" author.username %} }}"
+                                   class="card-user__link link">Total {% get_total_numbers_of_recipes author %}
                                     recipes...</a>
                             </li>
                         </ul>
                     </div>
                     <div class="card-user__footer">
-                        <button class="button button_style_light-blue button_size_auto" name="subscribe">Unsubscribe
+                        <button class="button button_style_light-blue button_size_auto"
+                                name="subscribe">Unsubscribe
                         </button>
                     </div>
                 </div>
             {% endfor %}
 
+
         </div>
+        {% if authors %}
+            {% include 'includes/pagination.html' with items=authors paginator=paginator %}
+        {% endif %}
     </main>
 {% endblock %}
 {% block js %}

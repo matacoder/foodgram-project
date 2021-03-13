@@ -9,6 +9,8 @@ from reportlab.pdfgen import canvas
 
 from recipe.models import Amount, Ingredient
 
+ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
+
 
 def save_form_m2m(request, form):
     # https://docs.djangoproject.com/en/3.1/topics/db/transactions/#controlling-transactions-explicitly
@@ -86,3 +88,11 @@ def generate_pdf(combined_ingredients):
     # present the option to save the file.
     buffer.seek(0)
     return buffer
+
+
+def get_tags_from(request):
+    tags = set()
+    if "tags" in request.GET:
+        tags = set(request.GET.getlist('tags'))
+        tags.intersection_update(set(ALLOWED_TAGS))
+    return tags
