@@ -18,14 +18,24 @@
         </div>
         <div class="author-subscribe" data-author="{{ author.id }}">
             <p style="padding: 0 0 2em 0;">
-                {% if not is_really_following %}
-                    <button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>
-                        Subscribe
-                    </button>
+                {% if user.is_authenticated %}
+                    {% if not is_really_following %}
+                        <button class="button button_style_light-blue button_size_subscribe"
+                                name="subscribe" data-out>
+                            Subscribe
+                        </button>
+                    {% else %}
+                        <button class="button button_style_light-blue button_size_subscribe button_style_blue"
+                                name="subscribe">Unsubscribe
+                        </button>
+                    {% endif %}
                 {% else %}
-                    <button class="button button_style_light-blue button_size_subscribe button_style_blue"
-                            name="subscribe">Unsubscribe
-                    </button>
+                    <a href="{% url "login" %}">
+                        <button class="button button_style_light-blue
+                button_size_subscribe" name="subscribe_not_logged" data-out>
+                            Subscribe
+                        </button>
+                    </a>
                 {% endif %}
             </p>
         </div>
