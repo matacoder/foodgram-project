@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}500{% endblock %}
+
+{% block content %}
+    {% include 'includes/nav.html' %}
+    <main class="main container">
+        <div class="custom-center-block">
+            <p class="custom-text-block">500 error - server is not feeling well</p>
+            <div class="custom-button-block">
+                <a href="{% url "index" %}"
+                <button class="button button_style_blue">Go back to index page
+                </button>
+                </a>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}

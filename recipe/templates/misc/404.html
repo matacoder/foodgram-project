@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}404{% endblock %}
+
+{% block content %}
+    {% include 'includes/nav.html' %}
+    <main class="main container">
+        <div class="custom-center-block">
+            <p class="custom-text-block">I was trying to find it. Really.
+                But... Nothing here</p>
+            <div class="custom-button-block">
+                <a href="{% url "index" %}"
+                <button class="button button_style_blue">Go back to index
+                    page
+                </button>
+                </a>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
