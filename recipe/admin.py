@@ -4,7 +4,7 @@ from recipe.models import Amount, Ingredient, Recipe, Tag
 
 
 class IngredientAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ("name",)
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -16,7 +16,7 @@ class AmountAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ("name",)
 
 
 admin.site.register(Ingredient, IngredientAdmin)
