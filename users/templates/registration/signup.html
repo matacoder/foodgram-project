@@ -8,55 +8,61 @@
     <main class="main container">
 
         <div class="main__header">
-            <h1 class="main__title">Регистрация</h1>
+            <h1 class="main__title">Registration</h1>
         </div>
         <div class="form-container">
-            {% for error in form.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error|escape }}
-                </div>
-            {% endfor %}
+
 
             <form class="form" method="post" action="{% url 'signup' %}">
+
                 {% csrf_token %}
                 <div class="form__group">
-                    <label for="id_first_name" class="form__label">Имя</label>
+                    <label for="id_first_name" class="form__label">Name</label>
                     <div class="form__field-group">
-                        <input type="text" name="first_name" id="id_first_name" class="form__input">
-                        <span class="form__error"></span>
+                        <input type="text" name="first_name" id="id_first_name"
+                               class="form__input" value="{{ form.first_name.value }}">
+                        <span class="form__error">{{ form.first_name.errors }}</span>
                     </div>
                 </div>
                 <div class="form__group">
-                    <label for="id_username" class="form__label">Имя пользователя</label>
+                    <label for="id_username" class="form__label">Имя
+                        пользователя</label>
                     <div class="form__field-group">
-                        <input type="text" name="username" id="id_username" class="form__input">
-                        <span class="form__error">Имя пользователя и пароль не совпадают. Введите правильные данные.
+                        <input type="text" name="username" id="id_username"
+                               class="form__input" value={{ form.username.value }}>
+                        <span class="form__error">{{ form.username.errors }}
                     </span>
                     </div>
                 </div>
                 <div class="form__group">
-                    <label for="id_email" class="form__label">Адрес электронной почты</label>
+                    <label for="id_email" class="form__label">Email</label>
                     <div class="form__field-group">
-                        <input type="email" name="email" id="id_email" class="form__input">
-                        <span class="form__error"></span>
+                        <input type="email" name="email" id="id_email"
+                               class="form__input" value="{{ form.email.value }}">
+                        <span class="form__error">{{ form.email.errors }}</span>
                     </div>
                 </div>
                 <div class="form__group">
-                    <label for="id_password" class="form__label">Пароль</label>
+                    <label for="id_password"
+                           class="form__label">Password</label>
                     <div class="form__field-group">
-                        <input type="password" name="password1" id="id_password" class="form__input">
-                        <span class="form__error"></span>
+                        <input type="password" name="password1"
+                               id="id_password" class="form__input">
+                        <span class="form__error">{{ form.password1.errors }}</span>
                     </div>
                 </div>
                 <div class="form__group">
-                    <label for="id_password" class="form__label">Пароль</label>
+                    <label for="id_password" class="form__label">Repeat
+                        password</label>
                     <div class="form__field-group">
-                        <input type="password" name="password2" id="id_password2" class="form__input">
-                        <span class="form__error"></span>
+                        <input type="password" name="password2"
+                               id="id_password2" class="form__input">
+                        <span class="form__error">{{ form.password2.errors }}</span>
                     </div>
                 </div>
                 <div class="form__footer">
-                    <button class="button button_style_blue">Создать аккаунт</button>
+                    <button class="button button_style_blue">Create account
+                    </button>
                 </div>
             </form>
         </div>
@@ -80,18 +86,23 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                        <div class="form-group row" aria-required={% if field.field.required %}
-                            "true"{% else %}"false"{% endif %}>
-                        <label for="{{ field.id_for_label }}" class="col-md-4 col-form-label text-md-right">
+                        <div class="form-group row"
+                             aria-required={% if field.field.required %}
+                                 "true"{% else %}"false"{% endif %}>
+                        <label for="{{ field.id_for_label }}"
+                               class="col-md-4 col-form-label text-md-right">
                             {{ field.label
-                                    }}{% if field.field.required %}<span class="required">*</span>{% endif %}</label>
+                                    }}{% if field.field.required %}
+                                <span class="required">*</span>{% endif %}
+                        </label>
                         <div class="col-md-6">
 
                             {# подключаем фильтр и указываем класс #}
                             {{ field|addclass:"form-control" }}
 
                             {% if field.help_text %}
-                                <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+                                <small id="{{ field.id_for_label }}-help"
+                                       class="form-text text-muted">
                                     {{ field.help_text|safe
                                             }}</small>
                             {% endif %}
