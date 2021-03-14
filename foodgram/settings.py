@@ -102,7 +102,10 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
+EMAIL_BACKEND = 'eml_email_backend.EmailBackend'
+EMAIL_FILE_PATH = 'email/'
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
