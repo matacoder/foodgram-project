@@ -1,26 +1,19 @@
 {% extends "base.html" %}
-{% block title %}Вы вышли из системы{% endblock %}
+{% block title %}Logged out{% endblock %}
 
 {% block content %}
     {% include 'includes/nav.html'  with logout=True %}
     <main class="main container">
         <div class="custom-center-block">
-            <p class="custom-text-block">Вы вышли из своей учётной записи. Ждём вас снова!</p>
+            <p class="custom-text-block">Come see us again</p>
             <div class="custom-button-block">
-                <a href="/"> <button class="button button_style_blue">Перейти на главную</button></a>
+                <a href="/">
+                    <button class="button button_style_blue">Go back to main
+                        page
+                    </button>
+                </a>
             </div>
         </div>
     </main>
 
 {% endblock %}
-
-<div class="row justify-content-center">
-    <div class="col-md-8 p-5">
-        <div class="card">
-            <div class="card-header">Вы вышли из системы</div>
-            <div class="card-body">
-                <p>Вы вышли из своей учётной записи. Ждём вас снова!</p>
-            </div> <!-- card body -->
-        </div> <!-- card -->
-    </div> <!-- col -->
-</div> <!-- row -->
