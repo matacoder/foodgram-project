@@ -92,4 +92,3 @@ def is_in_session_cart(request, product_id):
         if product_id in request.session["cart"]:
             return True
     return False
-

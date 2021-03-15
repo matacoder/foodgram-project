@@ -10,8 +10,8 @@ from django.views.decorators.http import require_http_methods
 
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
-from recipe.services import (combine_ingredients, generate_pdf, get_tags_from,
-                             save_form_m2m, get_session_recipes)
+from recipe.services import (combine_ingredients, generate_pdf,
+                             get_session_recipes, get_tags_from, save_form_m2m)
 from users.models import User
 
 PER_PAGE = 3
