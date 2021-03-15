@@ -33,8 +33,8 @@
                                 id="counter">{% how_many_listed request.user %}</span>
                     </li>
                 {% endif %}
-                <li class="nav__item nav__item_active">
-                    <a href="#"
+                <li class="nav__item">
+                    <a href="{% url 'shoplist' %}"
                        class="nav__link link">Cart</a>
                     <span
                             class="badge badge_style_blue nav__badge"

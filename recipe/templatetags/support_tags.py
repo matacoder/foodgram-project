@@ -84,3 +84,12 @@ def get_session_cart_len(request):
     if request.session.get("cart") is not None:
         return len(request.session.get("cart"))
     return 0
+
+
+@register.simple_tag
+def is_in_session_cart(request, product_id):
+    if request.session.get("cart") is not None:
+        if product_id in request.session["cart"]:
+            return True
+    return False
+

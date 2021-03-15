@@ -11,7 +11,7 @@ from django.views.decorators.http import require_http_methods
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
 from recipe.services import (combine_ingredients, generate_pdf, get_tags_from,
-                             save_form_m2m)
+                             save_form_m2m, get_session_recipes)
 from users.models import User
 
 PER_PAGE = 3
@@ -161,20 +161,18 @@ def edit_recipe(request, slug):
 
 
 def shoplist(request):
-    recipes = request.user.listed_recipes.select_related(
-        "author",
-    ).order_by("-pub_date").all()
-
-    paginator = Paginator(recipes, 10)
-    page_number = request.GET.get("page")
-    page = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        recipes = request.user.listed_recipes.select_related(
+            "author",
+        ).order_by("-pub_date").all()
+    else:
+        recipes = get_session_recipes(request)
 
     return render(
         request,
         "recipe/shop_list.html",
         {
-            "page": page,
-            "paginator": paginator
+            "recipes": recipes,
         }
     )
 
@@ -219,10 +217,12 @@ def purchases(request):
                 recipe.save()
             return JsonResponse({'success': 'true'})
         else:
-            if request.session.get("cart"):
-                request.session["cart"].append(recipe_id)
-            else:
-                request.session["cart"] = [recipe_id, ]
+            cart = request.session.get("cart")
+            if not cart:
+                cart = []
+            cart.append(recipe_id)
+            request.session["cart"] = cart
+            return JsonResponse({'success': 'true'})
     return JsonResponse({'success': 'false'})
 
 
@@ -236,9 +236,12 @@ def purchases_remove(request, recipe_id):
                 recipe.save()
             return JsonResponse({'success': 'true'})
         else:
-            if request.session.get("cart"):
-                request.session["cart"].remove(recipe_id)
-                return JsonResponse({'success': 'true'})
+            cart = request.session.get("cart")
+            cart = list(cart)
+            cart.remove(recipe_id)
+            request.session["cart"] = cart
+
+            return JsonResponse({'success': 'true'})
     return JsonResponse({'success': 'false'})
 
 
@@ -313,7 +316,6 @@ def ingredients(request):
     return JsonResponse(data, safe=False)  # Serialize non-dict object
 
 
-@login_required()
 def download_as_pdf(request):
     combined_ingredients = combine_ingredients(request)
     buffer = generate_pdf(combined_ingredients)
@@ -321,7 +323,6 @@ def download_as_pdf(request):
     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
 
-@login_required()
 def download_as_csv(request):
     combined_ingredients = combine_ingredients(request)
 

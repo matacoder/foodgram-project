@@ -2,6 +2,8 @@
 {% if user.is_authenticated %}
     {% is_listed item request.user as dont_show_add_to_cart %}
     {% is_favorite item request.user as favorite %}
+{% else %}
+    {% is_in_session_cart request item.id as in_session %}
 {% endif %}
 {% csrf_token %}
 <div class="card" data-id="{{ item.id }}">
@@ -29,30 +31,25 @@
         </div>
     </div>
     <div class="card__footer">
-        {% if user.is_authenticated %}
-            {% if dont_show_add_to_cart %}
-                <button class="button button_style_light-blue-outline"
-                        name="purchases"><span
-                        class="icon-check button__icon"></span>Remove from cart
-                </button>
-            {% else %}
-                <button class="button button_style_light-blue" name="purchases"
-                        data-out><span
-                        class="icon-plus button__icon"></span>Add to cart
-                </button>
-            {% endif %}
 
+        {% if dont_show_add_to_cart or in_session %}
+            <button class="button button_style_light-blue-outline"
+                    name="purchases"><span
+                    class="icon-check button__icon"></span>Remove from cart
+            </button>
+        {% else %}
+            <button class="button button_style_light-blue" name="purchases"
+                    data-out><span
+                    class="icon-plus button__icon"></span>Add to cart
+            </button>
+        {% endif %}
+        {% if user.is_authenticated %}
             <button class="button button_style_none" name="favorites"
                     {% if not favorite %}data-out="true"{% endif %}><span
                     class="icon-favorite {% if favorite %}icon-favorite_active{% endif %}"></span>
             </button>
 
         {% else %}
-
-                <button class="button button_style_light-blue"
-                        name="purchases" data-out><span
-                        class="icon-plus button__icon"></span>Add to cart
-                </button>
 
             <a href="{% url "login" %}">
 

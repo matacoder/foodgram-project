@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 
-from recipe.models import Amount, Ingredient
+from recipe.models import Amount, Ingredient, Recipe
 
 ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 
@@ -51,7 +51,10 @@ def check_and_convert_to_objects(ingredients, recipe):
 
 
 def combine_ingredients(request):
-    recipes = request.user.listed_recipes.all()
+    if request.user.is_authenticated:
+        recipes = request.user.listed_recipes.all()
+    else:
+        recipes = get_session_recipes(request)
     amounts = Amount.objects.filter(recipe__in=recipes)
     combined_ingredients = {}
     for amount in amounts:
@@ -96,3 +99,9 @@ def get_tags_from(request):
         tags = set(request.GET.getlist('tags'))
         tags.intersection_update(set(ALLOWED_TAGS))
     return tags
+
+
+def get_session_recipes(request):
+    if request.session.get("cart") is not None:
+        cart = request.session.get("cart")
+        return Recipe.objects.filter(id__in=cart)
