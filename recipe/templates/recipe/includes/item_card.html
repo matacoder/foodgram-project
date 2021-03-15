@@ -48,12 +48,12 @@
             </button>
 
         {% else %}
-            <a href="{% url "login" %}">
+
                 <button class="button button_style_light-blue"
-                        name="purchases_not_logged_in" data-out><span
+                        name="purchases" data-out><span
                         class="icon-plus button__icon"></span>Add to cart
                 </button>
-            </a>
+
             <a href="{% url "login" %}">
 
                 <button class="button button_style_none" name="favorites"

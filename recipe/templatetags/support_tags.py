@@ -77,3 +77,10 @@ def get_recipes_of(author):
 @register.simple_tag
 def get_total_numbers_of_recipes(author):
     return Recipe.objects.filter(author=author).count()
+
+
+@register.simple_tag
+def get_session_cart_len(request):
+    if request.session.get("cart") is not None:
+        return len(request.session.get("cart"))
+    return 0
