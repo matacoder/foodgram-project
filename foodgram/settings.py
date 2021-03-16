@@ -9,6 +9,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.User'
+AUTHOR_ITEMS = 3
 
 INSTALLED_APPS = [
     'users',

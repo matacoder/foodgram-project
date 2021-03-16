@@ -1,9 +1,9 @@
 from django import template
 
+from foodgram.settings import AUTHOR_ITEMS
 from recipe.models import Recipe
 
 register = template.Library()
-AUTHOR_ITEMS = 3
 
 
 @register.simple_tag
