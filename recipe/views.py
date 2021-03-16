@@ -336,16 +336,3 @@ def download_as_csv(request):
         writer.writerow([key, value])
 
     return response
-
-
-def server_error(request):
-    return render(request, "misc/500.html", status=500)
-
-
-def page_not_found(request, exception):
-    return render(
-        request,
-        "misc/404.html",
-        {"path": request.path},
-        status=404
-    )

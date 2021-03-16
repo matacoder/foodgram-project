@@ -25,6 +25,4 @@ urlpatterns = [
     path("favorites/<int:recipe_id>/", views.favorites_remove,
          name="favorites_remove"),  # API
     path("ingredients/", views.ingredients, name="ingredients"),  # API
-    path("404/", views.page_not_found, name="e404"),
-    path("500/", views.server_error, name="e500"),
 ]
