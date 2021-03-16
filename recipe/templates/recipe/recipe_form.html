@@ -16,8 +16,6 @@
             <form class="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
 
-
-                <!--    name    -->
                 <div class="form__group">
                     <label for="id_name" class="form__label">Title</label>
                     <div class="form__field-group">
@@ -28,13 +26,10 @@
                     </div>
                 </div>
 
-
-                <!--     tags as lunch: on; dinner: on        -->
                 <div class="form__group">
                     <p class="form__label">Tags</p>
                     <div class="form__field-group">
                         <div class="tags">
-
 
                             <div class="tags__item">
                                 <input type="checkbox" name="tags"
@@ -58,7 +53,6 @@
                                 <label for="id_tags_2" class="tags__label">Dinner</label>
                             </div>
 
-
                         </div>
                         <span class="form__error">{{ form.tags.errors }}</span>
                     </div>
@@ -81,8 +75,6 @@
                         </div>
 
                         <div class="form__field-group-ingredientes-container">
-
-                            <!--                    ingredients itself      -->
 
                             {% for ingredient in used_ingredients %}
                                 <div class="form__field-item-ingredient"
@@ -148,8 +140,6 @@
                                        <span class="form__error">{{ form.image.errors }}</span>
                     </div>
                 </div>
-
-                <!--        Save button         -->
 
                 <div class=" form__footer">
                     <button class="button button_style_blue">Save</button>

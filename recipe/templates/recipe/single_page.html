@@ -15,7 +15,7 @@
         {% endif %}
         <div class="single-card" data-id="{{ recipe.pk }}"
              data-author="{{ recipe.author.pk }}">
-            <img src="/media/{{ recipe.image }}" alt="{{ recipe.name }}"
+            <img src="{{ recipe.url }}" alt="{{ recipe.name }}"
                  class="single-card__image">
             <div class="single-card__info">
                 <div class="single-card__header-info">

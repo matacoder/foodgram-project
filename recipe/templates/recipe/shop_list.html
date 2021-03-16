@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    {% include 'includes/nav.html'  with shop_list=True %}
+    {% include "includes/nav.html"  with shop_list=True %}
     <main class="main container">
         {% csrf_token %}
         <div class="main__header">
@@ -19,8 +19,8 @@
                 {% for item in recipes %}
                     <li class="shopping-list__item" data-id="{{ item.id }}">
                         <div class="recipe recipe_reverse">
-                            <img src="/media/{{ item.image }}"
-                                 alt="какой-то текст"
+                            <img src="{{ item.image.url }}"
+                                 alt="{{ item.name }}"
                                  class="recipe__image recipe__image_big">
                             <h3 class="recipe__title">{{ item.name }}</h3>
                             <p class="recipe__text"><span
