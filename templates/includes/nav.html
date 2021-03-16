@@ -32,15 +32,16 @@
                                 class="badge badge_style_blue nav__badge"
                                 id="counter">{% how_many_listed request.user %}</span>
                     </li>
-                {% endif %}
-                <li class="nav__item">
-                    <a href="{% url "shoplist" %}"
-                       class="nav__link link">Cart</a>
-                    <span
-                            class="badge badge_style_blue nav__badge"
-                            id="counter">{% get_session_cart_len request %}</span>
-                </li>
 
+                {% else %}
+                    <li class="nav__item">
+                        <a href="{% url "shoplist" %}"
+                           class="nav__link link">Cart</a>
+                        <span
+                                class="badge badge_style_blue nav__badge"
+                                id="counter">{% get_session_cart_len request %}</span>
+                    </li>
+                {% endif %}
 
             </ul>
             <ul class="nav__items list">

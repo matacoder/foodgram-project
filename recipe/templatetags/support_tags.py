@@ -60,7 +60,7 @@ def delete_get_param(request, tags=[], param=""):
 
 @register.simple_tag
 def switch_page(request, page_number):
-    path = str(request.get_full_path())
+    path = request.get_full_path()
     current_page = request.GET.get("page")
     if "tags" in path and "page" in path:
         return path.replace(f"page={current_page}", f"page={page_number}")
