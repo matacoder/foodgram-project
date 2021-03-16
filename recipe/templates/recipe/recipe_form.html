@@ -6,7 +6,7 @@
 
 
 {% block content %}
-    {% include 'includes/nav.html'  with new=True %}
+    {% include "includes/nav.html"  with new=True %}
     <main class="main container">
         <div class="main__header">
             <h1 class="main__title">{% if edit %}Edit recipe{% else %}Create
@@ -23,7 +23,7 @@
                     <div class="form__field-group">
                         <input type="text" id="id_name" name="name"
                                class="form__input"
-                               value="{{ form.name.value|default_if_none:'' }}">
+                               value="{{ form.name.value|default_if_none:"" }}">
                         <span class="form__error">{{ form.name.errors }}</span>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="form__field-group">
                         <div class="tags">
 
-                            <!--                    here cycle -->
+
                             <div class="tags__item">
                                 <input type="checkbox" name="tags"
                                        id="id_tags_0" value="1"
@@ -58,19 +58,12 @@
                                 <label for="id_tags_2" class="tags__label">Dinner</label>
                             </div>
 
-                            <!--                    here cycle end -->
 
                         </div>
                         <span class="form__error">{{ form.tags.errors }}</span>
                     </div>
                 </div>
-                <!--        ingredients as
-                nameIngredient_3: Оливки
-                valueIngredient_3: 10
-                unitsIngredient_3: шт.
-                nameIngredient_2: Картошка
-                valueIngredient_2: 5
-                unitsIngredient_2: шт. -->
+
                 <div class="form__group">
                     <label for="nameIngredient"
                            class="form__label">Ingredients</label>
@@ -111,16 +104,11 @@
                             </div>
                             {% endfor %}
 
-
-                            <!--                    demo data -->
-
                         </div>
                         <span class="form__ingredient-link" id="addIng">Add this ingredient</span>
                         <span class="form__error">{{ form.ingredients.errors }}</span>
                     </div>
                 </div>
-
-                <!--        cook_time           -->
 
                 <div class="form__group">
                     <label for="id_time"
@@ -135,8 +123,6 @@
                     </div>
                 </div>
 
-                <!--        description         -->
-
                 <div class="form__group">
                     <label for="id_description"
                            class="form__label">Description</label>
@@ -148,9 +134,7 @@
                     </div>
                 </div>
 
-                <!--        image               -->
-
-                <div class="form__group">
+           <div class="form__group">
                     <span class="form__label">Upload Photo</span>
                     <div class="form__field-group">
                         <label for="id_file"
@@ -160,7 +144,7 @@
                             image{% endif %}</label>
                         <input type="file" class="form__file" name="image"
                                id="id_file"
-                               value="{{ form.image.value|default_if_none:''>
+                               value="{{ form.image.value|default_if_none:"">
                                        <span class="form__error">{{ form.image.errors }}</span>
                     </div>
                 </div>

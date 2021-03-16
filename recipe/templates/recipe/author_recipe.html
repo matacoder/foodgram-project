@@ -41,11 +41,11 @@
         </div>
         <div class="card-list">
             {% for item in page %}
-                {% include 'recipe/includes/item_card.html' %}
+                {% include "recipe/includes/item_card.html" %}
             {% endfor %}
         </div>
         {% if page %}
-            {% include 'includes/pagination.html' with items=page paginator=paginator %}
+            {% include "includes/pagination.html" with items=page paginator=paginator %}
         {% endif %}
     </main>
 {% endblock %}
