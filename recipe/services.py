@@ -58,10 +58,9 @@ def combine_ingredients(request):
     combined_ingredients = {}
     for amount in amounts:
         amount_name = f"{amount.ingredient.name}, {amount.ingredient.measure}"
-        if amount_name in combined_ingredients:
-            combined_ingredients[amount_name] += amount.amount
-        else:
-            combined_ingredients[amount_name] = amount.amount
+        combined_ingredients[amount_name] = combined_ingredients.get(
+            amount_name, 0) + amount.amount
+
     return combined_ingredients
 
 
