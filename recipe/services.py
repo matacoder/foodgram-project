@@ -7,9 +7,8 @@ from django.shortcuts import get_object_or_404
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
 
+from foodgram.settings import ALLOWED_TAGS
 from recipe.models import Amount, Ingredient, Recipe
-
-ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 
 
 def save_form_m2m(request, form):
@@ -34,8 +33,8 @@ def save_form_m2m(request, form):
 def get_ingredients_from(post):
     ingredients = {}
     for key, name in post.items():
-        if key.startswith('nameIngredient'):
-            value = key.replace('name', 'value')
+        if key.startswith("nameIngredient"):
+            value = key.replace("name", "value")
             ingredients[name] = post[value]
     return ingredients
 
@@ -43,7 +42,7 @@ def get_ingredients_from(post):
 def check_and_convert_to_objects(ingredients, recipe):
     amounts = []
     for name, amount in ingredients.items():
-        amount = Decimal(amount.replace(',', '.'))
+        amount = Decimal(amount.replace(",", "."))
         ingredient = get_object_or_404(Ingredient, name=name)
         amounts.append(
             Amount(recipe=recipe, ingredient=ingredient, amount=amount))
@@ -96,7 +95,7 @@ def generate_pdf(combined_ingredients):
 def get_tags_from(request):
     tags = set()
     if "tags" in request.GET:
-        tags = set(request.GET.getlist('tags'))
+        tags = set(request.GET.getlist("tags"))
         tags.intersection_update(set(ALLOWED_TAGS))
     return tags
 

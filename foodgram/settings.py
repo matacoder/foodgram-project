@@ -10,6 +10,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 AUTH_USER_MODEL = 'users.User'
 AUTHOR_ITEMS = 3
+ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 
 INSTALLED_APPS = [
     'users',
