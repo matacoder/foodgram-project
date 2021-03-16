@@ -22,7 +22,8 @@ urlpatterns += [
     path("api/v1/purchases/", views.purchases, name="purchases"),  # API
     path("api/v1/purchases/<int:recipe_id>/", views.purchases_remove,
          name="purchases_remove"),  # API
-    path("api/v1/subscriptions/", views.subscriptions, name="subscriptions"),  # API
+    path("api/v1/subscriptions/", views.subscriptions, name="subscriptions"),
+    # API
     path("api/v1/subscriptions/<int:user_id>/", views.subscriptions_remove,
          name="subscriptions"),  # API
     path("api/v1/favorites/", views.favorites, name="favorites"),  # API

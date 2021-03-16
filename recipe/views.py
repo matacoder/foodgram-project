@@ -11,9 +11,9 @@ from django.views.decorators.http import require_http_methods
 from foodgram.settings import PER_PAGE
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
-from recipe.services import (combine_ingredients, generate_pdf,
-                             get_session_recipes, get_tags_from, save_form_m2m,
-                             filter_by_tags)
+from recipe.services import (
+    combine_ingredients, filter_by_tags, generate_pdf, get_session_recipes,
+    get_tags_from, save_form_m2m)
 from users.models import User
 
 
