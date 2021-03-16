@@ -8,7 +8,8 @@ class User(AbstractUser):
     """ Custom user model """
 
     following = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
-                                       related_name="his_following")
+                                       related_name="his_following",
+                                       verbose_name="Who I follow")
 
     def __str__(self):
         return f'{self.username}: {self.get_full_name()}'
