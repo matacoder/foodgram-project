@@ -136,7 +136,7 @@ def edit_recipe(request, slug):
         return redirect(url)
     form = RecipeForm(request.POST or None, files=request.FILES or None,
                       instance=recipe)
-    if request.POST and form.is_valid():
+    if form.is_valid():
         recipe.amounts.all().delete()  # clean ingredients before m2m saving
         save_form_m2m(request, form)
         return redirect(url)
@@ -171,7 +171,7 @@ def shoplist(request):
     )
 
 
-def single(request, slug):
+def single_recipe(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
     return render(
         request,
