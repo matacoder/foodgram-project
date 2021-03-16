@@ -1,11 +1,12 @@
 {% extends "base.html" %}
-{% block title %}Logged out{% endblock %}
+{% block title %}Technology stack{% endblock %}
 
 {% block content %}
-    {% include 'includes/nav.html'  with logout=True %}
+    {% include "includes/nav.html" %}
     <main class="main container">
         <div class="custom-center-block">
-            <p class="custom-text-block">Come see us again</p>
+            <p class="custom-text-block">Stack: Django, Gunicorn, PostgreSQL,
+                Nginx, Caddy</p>
             <div class="custom-button-block">
 
                 <a href="{% url "index" %}" class="button button_style_blue">Go

@@ -12,3 +12,11 @@ def page_not_found(request, exception):
         {"path": request.path},
         status=404
     )
+
+
+def tech(request):
+    return render(
+        request,
+        "misc/tech.html",
+        {}
+    )

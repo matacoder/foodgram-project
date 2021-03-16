@@ -206,40 +206,36 @@ def purchases(request):
     if recipe_id is None:
         return JsonResponse({"success": False})
     recipe_id = int(recipe_id)
-    if Recipe.objects.filter(pk=recipe_id).exists():
-        if request.user.is_authenticated:
-            recipe = get_object_or_404(Recipe, pk=recipe_id)
-            if request.user not in recipe.listed.all():
-                recipe.listed.add(request.user)
-                recipe.save()
-            return JsonResponse({"success": True})
-        else:
-            cart = request.session.get("cart")
-            if not cart:
-                cart = []
-            cart.append(recipe_id)
-            request.session["cart"] = cart
-            return JsonResponse({"success": True})
-    return JsonResponse({"success": False})
+
+    if request.user.is_authenticated:
+        recipe = get_object_or_404(Recipe, pk=recipe_id)
+        if request.user not in recipe.listed.all():
+            recipe.listed.add(request.user)
+            recipe.save()
+        return JsonResponse({"success": True})
+    else:
+        cart = request.session.get("cart")
+        if not cart:
+            cart = []
+        cart.append(recipe_id)
+        request.session["cart"] = cart
+        return JsonResponse({"success": True})
 
 
 @require_http_methods("DELETE")
 def purchases_remove(request, recipe_id):
-    if Recipe.objects.filter(pk=recipe_id).exists():
-        if request.user.is_authenticated:
-            recipe = get_object_or_404(Recipe, id=recipe_id)
-            if request.user in recipe.listed.all():
-                recipe.listed.remove(request.user)
-                recipe.save()
-            return JsonResponse({"success": True})
-        else:
-            cart = request.session.get("cart")
-            cart = list(cart)
-            cart.remove(recipe_id)
-            request.session["cart"] = cart
-
-            return JsonResponse({"success": True})
-    return JsonResponse({"success": False})
+    if request.user.is_authenticated:
+        recipe = get_object_or_404(Recipe, id=recipe_id)
+        if request.user in recipe.listed.all():
+            recipe.listed.remove(request.user)
+            recipe.save()
+        return JsonResponse({"success": True})
+    else:
+        cart = request.session.get("cart")
+        cart = list(cart)
+        cart.remove(recipe_id)
+        request.session["cart"] = cart
+        return JsonResponse({"success": True})
 
 
 @login_required()
@@ -268,38 +264,29 @@ def subscriptions_remove(request, user_id):
     return JsonResponse({"success": False})
 
 
+@login_required()
 @require_http_methods("POST")
 def favorites(request):
     recipe_id = int(json.loads(request.body).get("id"))
     if recipe_id is None:
         return JsonResponse({"success": False})
     recipe_id = int(recipe_id)
-    if not Recipe.objects.filter(pk=recipe_id).exists():
-        return JsonResponse({"success": False})
-    if request.user.is_authenticated:
-        recipe = get_object_or_404(Recipe, pk=recipe_id)
-        if request.user not in recipe.favorite.all():
-            recipe.favorite.add(request.user)
-            recipe.save()
-        return JsonResponse({"success": True})
-    else:
-        if request.session.get("favorites"):
-            request.session["favorites"].append(recipe_id)
-        else:
-            request.session["favorites"] = [recipe_id, ]
+
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    if request.user not in recipe.favorite.all():
+        recipe.favorite.add(request.user)
+        recipe.save()
     return JsonResponse({"success": True})
 
 
 @login_required()
 @require_http_methods("DELETE")
 def favorites_remove(request, recipe_id):
-    if Recipe.objects.filter(pk=recipe_id).exists():
-        recipe = get_object_or_404(Recipe, id=recipe_id)
-        if request.user in recipe.favorite.all():
-            recipe.favorite.remove(request.user)
-            recipe.save()
-        return JsonResponse({"success": True})
-    return JsonResponse({"success": False})
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.user in recipe.favorite.all():
+        recipe.favorite.remove(request.user)
+        recipe.save()
+    return JsonResponse({"success": True})
 
 
 @login_required()

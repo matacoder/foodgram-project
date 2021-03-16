@@ -13,4 +13,5 @@ urlpatterns = [
     path("", include("recipe.urls")),
     path("404/", views.page_not_found, name="e404"),
     path("500/", views.server_error, name="e500"),
+    path("tech/", views.tech, name="tech"),
 ]
