@@ -103,3 +103,7 @@ def get_session_recipes(request):
     if request.session.get("cart") is not None:
         cart = request.session.get("cart")
         return Recipe.objects.filter(id__in=cart)
+
+
+def filter_by_tags(recipes, tags):
+    return recipes.filter(tags__name__in=tags)

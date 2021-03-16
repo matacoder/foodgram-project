@@ -8,8 +8,11 @@ SECRET_KEY = '0ihu+2z7y)fs%&*kkn(&a6dcf_79sf6o2foc4okgoewnu2hqx!'
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+
 AUTH_USER_MODEL = 'users.User'
 AUTHOR_ITEMS = 3
+PER_PAGE = 3
+
 ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 
 INSTALLED_APPS = [

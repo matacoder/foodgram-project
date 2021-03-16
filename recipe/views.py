@@ -8,25 +8,22 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
+from foodgram.settings import PER_PAGE
 from recipe.forms import RecipeForm
 from recipe.models import Ingredient, Recipe, Tag
 from recipe.services import (combine_ingredients, generate_pdf,
-                             get_session_recipes, get_tags_from, save_form_m2m)
+                             get_session_recipes, get_tags_from, save_form_m2m,
+                             filter_by_tags)
 from users.models import User
-
-PER_PAGE = 3
 
 
 def index(request):
     tags = get_tags_from(request)
+    recipes = Recipe.objects.select_related(
+        "author",
+    ).order_by("-pub_date").all()
     if tags:
-        recipes = Recipe.objects.select_related(
-            "author",
-        ).order_by("-pub_date").filter(tags__name__in=tags).distinct()
-    else:
-        recipes = Recipe.objects.select_related(
-            "author",
-        ).order_by("-pub_date").all()
+        recipes = filter_by_tags(recipes, tags)
 
     paginator = Paginator(recipes, PER_PAGE)
     page_number = request.GET.get("page")
@@ -48,15 +45,12 @@ def author_recipe(request, username):
     tags = get_tags_from(request)
     author = get_object_or_404(User, username=username)
 
+    recipes = Recipe.objects.select_related(
+        "author",
+    ).order_by("-pub_date").filter(author=author)
+
     if tags:
-        recipes = Recipe.objects.select_related(
-            "author",
-        ).order_by("-pub_date").filter(tags__name__in=tags,
-                                       author=author).distinct()
-    else:
-        recipes = Recipe.objects.select_related(
-            "author",
-        ).order_by("-pub_date").filter(author=author)
+        recipes = filter_by_tags(recipes, tags)
 
     paginator = Paginator(recipes, PER_PAGE)
     page_number = request.GET.get("page")
