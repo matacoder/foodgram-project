@@ -41,7 +41,9 @@ class Recipe(models.Model):
         verbose_name="Recipe's ingredients"
     )
     description = models.TextField(max_length=1000, verbose_name="Description")
-    cook_time = models.PositiveSmallIntegerField(verbose_name="Cooking time")
+    cook_time = models.PositiveSmallIntegerField(verbose_name="Cooking time",
+                                                 validators=[
+                                                     MinValueValidator(1)])
     image = models.ImageField(upload_to="recipes/", blank=True,
                               verbose_name="Recipe's Image")
     slug = AutoSlugField(populate_from="name", allow_unicode=True, unique=True,
@@ -64,19 +66,21 @@ class Recipe(models.Model):
         verbose_name_plural = 'recipes'
 
     def __str__(self):
-        return f'Recipe: {self.name} by {self.author}'
+        return f'Recipe: {self.name} by {self.author.first_name}'
 
 
 class Amount(models.Model):
     """ Support model for Ingredient&Recipe ManyToMany relation """
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE,
-                               related_name="amounts")
+                               related_name="amounts", verbose_name="Recipe")
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE,
-                                   related_name="amounts")
+                                   related_name="amounts",
+                                   verbose_name="Ingredient")
     amount = models.DecimalField(
         max_digits=5,
         decimal_places=1,
-        validators=[MinValueValidator(1)]
+        validators=[MinValueValidator(1)],
+        verbose_name="How many?"
     )
 
     def __str__(self):
