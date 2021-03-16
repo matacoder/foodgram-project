@@ -38,23 +38,23 @@ def is_following(user_id, user):
 
 @register.simple_tag
 def add_get_param(current_url, tag):
-    if '?' in current_url:
-        return f'{current_url}&tags={tag}'
-    return f'{current_url}?tags={tag}'
+    if "?" in current_url:
+        return f"{current_url}&tags={tag}"
+    return f"{current_url}?tags={tag}"
 
 
 @register.simple_tag
 def delete_get_param(request, tags=[], param=""):
     tags = list(tags)
     tags.remove(param)
-    params = '&'.join(f"tags={tag}" for tag in tags)
+    params = "&".join(f"tags={tag}" for tag in tags)
     if "page" in request.GET:
         path = str(request.get_full_path())
-        params_with_page = path.split('&')
+        params_with_page = path.split("&")
         if len(params) > 0:
-            return f'{params_with_page[0]}&{params}'
+            return f"{params_with_page[0]}&{params}"
         else:
-            return f'{params_with_page[0]}'
+            return f"{params_with_page[0]}"
     return f"?{params}"
 
 
@@ -63,10 +63,10 @@ def switch_page(request, page_number):
     path = str(request.get_full_path())
     current_page = request.GET.get("page")
     if "tags" in path and "page" in path:
-        return path.replace(f'page={current_page}', f'page={page_number}')
+        return path.replace(f"page={current_page}", f"page={page_number}")
     if "tags" in path and "page" not in path:
-        return f'?page={page_number}&{path[2:]}'
-    return f'?page={page_number}'
+        return f"?page={page_number}&{path[2:]}"
+    return f"?page={page_number}"
 
 
 @register.simple_tag
