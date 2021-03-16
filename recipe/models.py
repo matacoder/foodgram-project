@@ -19,9 +19,10 @@ class Tag(models.Model):
     """ Breakfast, Lunch, Dinner default tags here """
     name = models.CharField(max_length=255, verbose_name="Tag's name")
     color = models.CharField(max_length=100, blank=True,
-                             verbose_name="Tag's color")
+                             verbose_name="Tag's color", default="")
     nice_name = models.CharField(max_length=255, blank=True,
-                                 verbose_name="Nice english name for tag")
+                                 verbose_name="Nice english name for tag",
+                                 default="")
 
     def __str__(self):
         return f'Tag: {self.name}'
@@ -45,15 +46,17 @@ class Recipe(models.Model):
                                                  validators=[
                                                      MinValueValidator(1)])
     image = models.ImageField(upload_to="recipes/", blank=True,
-                              verbose_name="Recipe's Image")
+                              verbose_name="Recipe's Image", default="")
     slug = AutoSlugField(populate_from="name", allow_unicode=True, unique=True,
                          editable=True, verbose_name="Slug")
     favorite = models.ManyToManyField(User, blank=True,
                                       related_name="favorite_recipes",
-                                      verbose_name="Who added to favorites")
+                                      verbose_name="Who added to favorites",
+                                      default="")
     listed = models.ManyToManyField(User, blank=True,
                                     related_name="listed_recipes",
-                                    verbose_name="Who added to cart")
+                                    verbose_name="Who added to cart",
+                                    default="")
     pub_date = models.DateTimeField(
         verbose_name="Publication date",
         auto_now_add=True,
@@ -84,4 +87,4 @@ class Amount(models.Model):
     )
 
     def __str__(self):
-        return f'Amount: {self.ingredient} by {self.amount}'
+        return f'Amount: {self.ingredient.name} by {self.amount}'
