@@ -92,6 +92,7 @@ jobs:
           docker context use remote
           docker pull matakov/foodgram:latest
           docker-compose --context remote down
+          docker volume rm foodgram-project_static
           docker-compose --context remote up -d --force-recreate --build
 
   send_message:
