@@ -16,5 +16,3 @@ urlpatterns = [
          name="delete"),
     path("following/", views.my_follow, name="my_follow"),
 ]
-
-

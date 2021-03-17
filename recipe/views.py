@@ -1,16 +1,14 @@
 import csv
-import json
 
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import FileResponse, HttpResponse, JsonResponse
+from django.http import FileResponse, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_http_methods
 
 from foodgram.settings import PER_PAGE
 from recipe.forms import RecipeForm
-from recipe.models import Ingredient, Recipe, Tag
+from recipe.models import Recipe, Tag
 from recipe.services import (
     combine_ingredients, filter_by_tags, generate_pdf, get_session_recipes,
     get_tags_from, save_form_m2m)
@@ -198,8 +196,6 @@ def my_follow(request):
             "paginator": paginator
         }
     )
-
-
 
 
 def download_as_pdf(request):
