@@ -87,7 +87,7 @@ jobs:
           mv docker-compose.yaml docker-compose-dev.yaml
           mv docker-compose-prod.yaml docker-compose.yaml
 
-      - name: Remote docker-compose down/wp using --context (zero files)
+      - name: Remote docker-compose down/up using --context (zero files)
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.IP_HOST }}"
           docker context use remote
