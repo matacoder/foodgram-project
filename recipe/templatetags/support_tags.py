@@ -44,7 +44,7 @@ def add_get_param(current_url, tag):
 
 
 @register.simple_tag
-def delete_get_param(request, tags=[], param=""):
+def delete_get_param(request, tags=None, param=""):
     tags = list(tags)
     tags.remove(param)
     params = "&".join(f"tags={tag}" for tag in tags)
