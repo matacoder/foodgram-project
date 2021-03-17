@@ -7,6 +7,7 @@ on:
 
 jobs:
   tests:
+    name: Flake8 and isort tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
