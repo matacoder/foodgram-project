@@ -18,6 +18,7 @@ ALLOWED_TAGS = ('breakfast', 'lunch', 'dinner',)
 INSTALLED_APPS = [
     'users',
     'recipe',
+    'api',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
