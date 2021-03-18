@@ -106,4 +106,4 @@ def get_session_recipes(request):
 
 
 def filter_by_tags(recipes, tags):
-    return recipes.filter(tags__name__in=tags)
+    return recipes.filter(tags__name__in=tags).distinct()
