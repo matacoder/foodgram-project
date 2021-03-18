@@ -220,6 +220,7 @@ def download_as_csv(request):
     return response
 
 
+@login_required()
 def import_csv(request):
     import_ingredients_from_csv()
     return redirect("index")
