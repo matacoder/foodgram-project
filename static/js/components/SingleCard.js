@@ -40,11 +40,11 @@ class SingleCard extends MainCards{
     }
     tooltipAdd  () {
         const item = this.target.closest('.single-card').querySelector('.single-card__favorite-tooltip');
-        item.textContent = "Добавить в избранное"
+        item.textContent = "Add to favorites"
     }
     tooltipDel () {
         const item = this.target.closest('.single-card__favorite').querySelector('.single-card__favorite-tooltip');
-        item.textContent = "Убрать из избранного"
+        item.textContent = "Remove from favorites"
     }
     _eventPurchases  (target)  {
         const cardId = target.closest(this.card).getAttribute('data-id');
