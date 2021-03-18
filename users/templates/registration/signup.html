@@ -20,7 +20,7 @@
                     <label for="id_first_name" class="form__label">Name</label>
                     <div class="form__field-group">
                         <input type="text" name="first_name" id="id_first_name"
-                               class="form__input" value="{{ form.first_name.value }}">
+                               class="form__input" value="{{ form.first_name.value|default_if_none:"" }}">
                         <span class="form__error">{{ form.first_name.errors }}</span>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                         пользователя</label>
                     <div class="form__field-group">
                         <input type="text" name="username" id="id_username"
-                               class="form__input" value={{ form.username.value }}>
+                               class="form__input" value={{ form.username.value|default_if_none:"" }}>
                         <span class="form__error">{{ form.username.errors }}
                     </span>
                     </div>
@@ -38,7 +38,7 @@
                     <label for="id_email" class="form__label">Email</label>
                     <div class="form__field-group">
                         <input type="email" name="email" id="id_email"
-                               class="form__input" value="{{ form.email.value }}">
+                               class="form__input" value="{{ form.email.value|default_if_none:"" }}">
                         <span class="form__error">{{ form.email.errors }}</span>
                     </div>
                 </div>
@@ -69,54 +69,3 @@
     </main>
 
 {% endblock %}
-
-<div class="row justify-content-center">
-    <div class="col-md-8 p-5">
-        <div class="card">
-            <div class="card-header">Зарегистрироваться</div>
-            <div class="card-body">
-
-                {% for error in form.errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error|escape }}
-                    </div>
-                {% endfor %}
-
-                <form method="post" action="{% url 'signup' %}">
-                    {% csrf_token %}
-
-                    {% for field in form %}
-                        <div class="form-group row"
-                             aria-required={% if field.field.required %}
-                                 "true"{% else %}"false"{% endif %}>
-                        <label for="{{ field.id_for_label }}"
-                               class="col-md-4 col-form-label text-md-right">
-                            {{ field.label
-                                    }}{% if field.field.required %}
-                                <span class="required">*</span>{% endif %}
-                        </label>
-                        <div class="col-md-6">
-
-                            {# подключаем фильтр и указываем класс #}
-                            {{ field|addclass:"form-control" }}
-
-                            {% if field.help_text %}
-                                <small id="{{ field.id_for_label }}-help"
-                                       class="form-text text-muted">
-                                    {{ field.help_text|safe
-                                            }}</small>
-                            {% endif %}
-                        </div>
-                        </div>
-                    {% endfor %}
-
-            <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-primary">
-                    Зарегистрироваться
-                </button>
-            </div>
-            </form>
-        </div> <!-- card body -->
-    </div> <!-- card -->
-</div> <!-- col -->
-</div> <!-- row -->
