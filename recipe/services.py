@@ -1,7 +1,6 @@
 import csv
-
-import os
 import io
+import os
 from decimal import Decimal
 
 from django.db import IntegrityError, transaction
