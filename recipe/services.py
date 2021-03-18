@@ -1,3 +1,6 @@
+import csv
+
+import os
 import io
 from decimal import Decimal
 
@@ -107,3 +110,15 @@ def get_session_recipes(request):
 
 def filter_by_tags(recipes, tags):
     return recipes.filter(tags__name__in=tags).distinct()
+
+
+def import_ingredients_from_csv():
+    module_dir = os.path.dirname(__file__)  # get current directory
+    path = os.path.join(module_dir, 'ingredients.csv')
+    with open(path) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            _, created = Ingredient.objects.get_or_create(
+                name=row[0],
+                measure="g",
+            )

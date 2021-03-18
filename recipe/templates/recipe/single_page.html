@@ -28,7 +28,11 @@
                                     class="icon-favorite icon-favorite_big {% if is_really_favorite %}icon-favorite_active{% endif %}"></span>
                             </button>
                             <div class="single-card__favorite-tooltip tooltip">
-                                Add to favorites
+                                {% if is_really_favorite %}
+                                    Remove from favorites
+                                {% else %}
+                                    Add to favorites
+                                {% endif %}
                             </div>
                         {% else %}
                             <a href="{% url "login" %}">
@@ -104,9 +108,9 @@
                         </li>
                     {% else %}
 
-                            <li class="single-card__item">
-                                {% include "recipe/includes/add_to_cart.html" with item=recipe %}
-                            </li>
+                        <li class="single-card__item">
+                            {% include "recipe/includes/add_to_cart.html" with item=recipe %}
+                        </li>
 
                         <a href="{% url "login" %}">
                             <li class="single-card__item">

@@ -15,4 +15,5 @@ urlpatterns = [
     path("recipe/<slug:slug>/edit/delete/", views.delete_recipe,
          name="delete"),
     path("following/", views.my_follow, name="my_follow"),
+    path("system/import/csv/", views.import_csv, name="import_csv"),
 ]

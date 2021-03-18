@@ -11,7 +11,7 @@ from recipe.forms import RecipeForm
 from recipe.models import Recipe, Tag
 from recipe.services import (
     combine_ingredients, filter_by_tags, generate_pdf, get_session_recipes,
-    get_tags_from, save_form_m2m)
+    get_tags_from, save_form_m2m, import_ingredients_from_csv)
 from users.models import User
 
 
@@ -218,3 +218,8 @@ def download_as_csv(request):
         writer.writerow([key, value])
 
     return response
+
+
+def import_csv(request):
+    ingredients = import_ingredients_from_csv()
+    return redirect("index")
