@@ -72,6 +72,7 @@
                     </ul>
                 </div>
                 <ul class="single-card__items">
+
                     {% if user.is_authenticated %}
                         <li class="single-card__item">
                             {% if not is_really_listed %}
@@ -102,15 +103,11 @@
                             {% endif %}
                         </li>
                     {% else %}
-                        <a href="{% url "login" %}">
+
                             <li class="single-card__item">
-                                <button class="button button_style_blue"
-                                        name="purchases" data-out><span
-                                        class="icon-plus"></span>
-                                    Add to cart
-                                </button>
+                                {% include "recipe/includes/add_to_cart.html" with item=recipe %}
                             </li>
-                        </a>
+
                         <a href="{% url "login" %}">
                             <li class="single-card__item">
                                 <button class="button button_style_light-blue button_size_subscribe"
