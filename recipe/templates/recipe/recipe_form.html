@@ -136,7 +136,7 @@
                             image{% endif %}</label>
                         <input type="file" class="form__file" name="image"
                                id="id_file"
-                               value="{{ form.image.value|default_if_none:"">
+                               value="{{ form.image.value|default_if_none:""}}">
                                        <span class="form__error">{{ form.image.errors }}</span>
                     </div>
                 </div>

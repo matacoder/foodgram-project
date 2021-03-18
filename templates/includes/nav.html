@@ -16,14 +16,14 @@
                         <a href="{% url "my_follow" %}"
                            class="nav__link link">Following</a>
                         <span class="badge badge_style_blue nav__badge"
-                              id="counter3">{% how_many_following request.user %}</span>
+                              id="counter_fol">{% how_many_following request.user %}</span>
                     </li>
 
                     <li class="nav__item{% if favorite %} nav__item_active{% endif %}">
                         <a href="{% url "favorite" %}"
                            class="nav__link link">Favorites</a>
                         <span class="badge badge_style_blue nav__badge"
-                              id="counter2">{% how_many_favorites request.user %}</span>
+                              id="counter_fav">{% how_many_favorites request.user %}</span>
                     </li>
                     <li class="nav__item{% if shop_list %} nav__item_active{% endif %}">
                         <a href="{% url "shoplist" %}"
