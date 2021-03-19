@@ -1,5 +1,6 @@
 import csv
 import io
+import math
 import os
 from decimal import Decimal
 
@@ -45,7 +46,7 @@ def get_ingredients_from(post):
 def check_and_convert_to_objects(ingredients, recipe):
     amounts = []
     for name, amount in ingredients.items():
-        amount = Decimal(amount.replace(",", "."))
+        amount = math.fabs(Decimal(amount.replace(",", ".")))
         try:
             ingredient = get_object_or_404(Ingredient, name__exact=name)
             amounts.append(
