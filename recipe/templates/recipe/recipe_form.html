@@ -15,7 +15,9 @@
         <span class="form-container">
             <form class="form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-
+{% for error in form.errors %}
+            {{ error }}
+            {% endfor %}
                 <div class="form__group">
                     <label for="id_name" class="form__label">Title</label>
                     <div class="form__field-group">
@@ -98,7 +100,7 @@
 
                         </div>
                         <span class="form__ingredient-link" id="addIng">Add this ingredient</span>
-                        <span class="form__error">{{ form.ingredients.errors }}</span>
+                        <span class="form__error">{{ form.amount.errors }}</span>
                     </div>
                 </div>
 
@@ -111,7 +113,7 @@
                                value="{{ form.cook_time.value|default_if_none:'' }}">
                         <label for="id_time"
                                class="form__label">minutes</label>
-                        <span class="form__error">{{ form.cooking_time.errors }}</span>
+                        <span class="form__error">{{ form.cook_time.errors }}</span>
                     </div>
                 </div>
 
