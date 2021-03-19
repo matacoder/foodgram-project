@@ -3,7 +3,7 @@ import io
 import os
 from decimal import Decimal
 
-from django.core.exceptions import MultipleObjectsReturned
+from django.core.exceptions import MultipleObjectsReturned, ValidationError
 from django.db import IntegrityError, transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -51,7 +51,10 @@ def check_and_convert_to_objects(ingredients, recipe):
             amounts.append(
                 Amount(recipe=recipe, ingredient=ingredient, amount=amount))
         except MultipleObjectsReturned:
-            pass
+            raise ValidationError(
+                'You have two ingredients with the same name in DB',
+                code='invalid',
+            )
     return amounts
 
 
