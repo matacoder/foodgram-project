@@ -47,7 +47,7 @@ def check_and_convert_to_objects(ingredients, recipe):
     for name, amount in ingredients.items():
         amount = Decimal(amount.replace(",", "."))
         try:
-            ingredient = get_object_or_404(Ingredient, name=name)
+            ingredient = get_object_or_404(Ingredient, name__exact=name)
             amounts.append(
                 Amount(recipe=recipe, ingredient=ingredient, amount=amount))
         except MultipleObjectsReturned:
