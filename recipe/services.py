@@ -51,10 +51,7 @@ def check_and_convert_to_objects(ingredients, recipe):
             amounts.append(
                 Amount(recipe=recipe, ingredient=ingredient, amount=amount))
         except MultipleObjectsReturned:
-            raise ValidationError(
-                'You have two ingredients with the same name in DB',
-                code='invalid',
-            )
+            pass
     return amounts
 
 
