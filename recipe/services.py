@@ -3,6 +3,7 @@ import io
 import os
 from decimal import Decimal
 
+from django.core.exceptions import MultipleObjectsReturned
 from django.db import IntegrityError, transaction
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
@@ -45,9 +46,12 @@ def check_and_convert_to_objects(ingredients, recipe):
     amounts = []
     for name, amount in ingredients.items():
         amount = Decimal(amount.replace(",", "."))
-        ingredient = get_object_or_404(Ingredient, name=name)
-        amounts.append(
-            Amount(recipe=recipe, ingredient=ingredient, amount=amount))
+        try:
+            ingredient = get_object_or_404(Ingredient, name=name)
+            amounts.append(
+                Amount(recipe=recipe, ingredient=ingredient, amount=amount))
+        except MultipleObjectsReturned:
+            pass
     return amounts
 
 

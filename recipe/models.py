@@ -8,7 +8,8 @@ from users.models import User
 class Ingredient(models.Model):
     """ Ingredient model """
 
-    name = models.CharField(max_length=255, verbose_name="Ingredient name")
+    name = models.CharField(max_length=255, verbose_name="Ingredient name",
+                            unique=True)
     measure = models.CharField(max_length=30, verbose_name="Measure")
 
     def __str__(self):
