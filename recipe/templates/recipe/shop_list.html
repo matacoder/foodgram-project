@@ -19,7 +19,7 @@
                 {% for item in recipes %}
                     <li class="shopping-list__item" data-id="{{ item.id }}">
                         <div class="recipe recipe_reverse">
-                            <img src="{{ item.image.url }}"
+                            <img src="{% if item.image %}{{ item.image.url }}{% else %}/media/recipes/nophoto.jpg{% endif %}"
                                  alt="{{ item.name }}"
                                  class="recipe__image recipe__image_big">
                             <h3 class="recipe__title">{{ item.name }}</h3>

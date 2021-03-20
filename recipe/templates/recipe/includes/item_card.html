@@ -5,7 +5,7 @@
 {% csrf_token %}
 <div class="card" data-id="{{ item.id }}">
     <a href="{% url "single" item.slug %}" class="link" target="_blank"><img
-            src="{{ item.image.url }}"
+            src="{% if item.image %}{{ item.image.url }}{% else %}/media/recipes/nophoto.jpg{% endif %}"
             alt="{{ item.name }}"
             class="card__image"></a>
     <div class="card__body">
