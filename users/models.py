@@ -9,7 +9,8 @@ class User(AbstractUser):
 
     following = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
                                        related_name="his_following",
-                                       verbose_name="Who I follow")
+                                       verbose_name="Who I follow",
+                                       symmetrical=False)
 
     def __str__(self):
         return f'{self.username}: {self.get_full_name()}'
