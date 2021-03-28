@@ -18,7 +18,7 @@ def how_many_favorites(user):
 
 @register.simple_tag
 def how_many_following(user):
-    return user.following.count()
+    return user.his_following.count()
 
 
 @register.simple_tag
@@ -33,7 +33,7 @@ def is_listed(recipe, user):
 
 @register.simple_tag
 def is_following(user_id, user):
-    return user.following.filter(id=user_id).exists()
+    return user.his_following.filter(id=user_id).exists()
 
 
 @register.simple_tag
