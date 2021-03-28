@@ -92,6 +92,7 @@ jobs:
         run: |
           docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.IP_HOST }}"
           docker context use remote
+          docker image prune -f
           docker pull matakov/foodgram:latest
           docker-compose --context remote down
           docker volume rm foodgram-project_static
