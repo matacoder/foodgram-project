@@ -1,6 +1,5 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 
-from recipe.models import Recipe
 from users.forms import User
 
 
