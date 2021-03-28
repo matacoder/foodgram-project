@@ -56,8 +56,8 @@ def subscriptions(request):
     user_id = int(user_id)
     if User.objects.filter(pk=user_id).exists():
         following = User.objects.get(pk=user_id)
-        if following not in request.user.following.all():
-            request.user.following.add(following)
+        if following not in request.user.his_following.all():
+            request.user.his_following.add(following)
         return JsonResponse({"success": True})
     return JsonResponse({"success": False})
 
@@ -67,8 +67,9 @@ def subscriptions(request):
 def subscriptions_remove(request, user_id):
     if User.objects.filter(pk=user_id).exists():
         unfollowing = User.objects.get(pk=user_id)
-        if unfollowing in request.user.following.all():
-            request.user.following.remove(unfollowing)
+        if unfollowing in request.user.his_following.all():
+            request.user.his_following.remove(unfollowing)
+            request.user.save()
         return JsonResponse({"success": True})
     return JsonResponse({"success": False})
 

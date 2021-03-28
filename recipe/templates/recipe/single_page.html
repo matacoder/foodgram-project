@@ -15,7 +15,9 @@
         {% endif %}
         <div class="single-card" data-id="{{ recipe.pk }}"
              data-author="{{ recipe.author.pk }}">
-            <img src="{% if item.image %}{{ item.image.url }}{% else %}/static/nophoto.jpg{% endif %}" alt="{{ recipe.name }}"
+            <img src="
+                    {% if item.image %}{{ item.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
+                 alt="{{ recipe.name }}"
                  class="single-card__image">
             <div class="single-card__info">
                 <div class="single-card__header-info">
@@ -81,7 +83,7 @@
                         <li class="single-card__item">
                             {% if not is_really_listed %}
                                 <button class="button button_style_blue"
-                                        name="purchases" data-out><span
+                                        name="purchases" data-out="true"><span
                                         class="icon-plus"></span>
                                     Add to cart
                                 </button>
@@ -97,7 +99,7 @@
                             {% if not is_really_following %}
                                 <button class="button button_style_light-blue button_size_subscribe"
                                         name="subscribe"
-                                        data-out>
+                                        data-out="true">
                                     Subscribe
                                 </button>
                             {% else %}
@@ -116,7 +118,7 @@
                             <li class="single-card__item">
                                 <button class="button button_style_light-blue button_size_subscribe"
                                         name="subscribe"
-                                        data-out>
+                                        data-out="true">
                                     Subscribe
                                 </button>
                             </li>
