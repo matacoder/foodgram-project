@@ -26,7 +26,8 @@
                             {% for recipe in recipes %}
                                 <li class="card-user__item">
                                     <div class="recipe">
-                                        <img src="{% if recipe.image %}{{ recipe.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
+                                        <img src="
+                                                {% if recipe.image %}{{ recipe.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
                                              alt="{{ recipe.name }}"
                                              class="recipe__image">
                                         <h3 class="recipe__title">{{ recipe.name }}</h3>
@@ -46,7 +47,7 @@
                     </div>
                     <div class="card-user__footer">
                         <button class="button button_style_light-blue button_size_auto"
-                                name="subscribe">Unsubscribe
+                                name="subscribe" data-out="true">Unsubscribe
                         </button>
                     </div>
                 </div>

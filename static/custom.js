@@ -1,6 +1,6 @@
 counterFav = document.querySelector("#counter_fav")
 
-let starElements = document.querySelectorAll('[name="favorites"]')
+const starElements = document.querySelectorAll('[name="favorites"]')
 
 for (let starElement of starElements) {
     starElement.addEventListener('click', event => {
@@ -13,3 +13,5 @@ for (let starElement of starElements) {
         }
     })
 }
+
+// const subscribeElements
