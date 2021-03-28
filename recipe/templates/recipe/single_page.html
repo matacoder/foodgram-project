@@ -24,7 +24,7 @@
                         {% if user.is_authenticated %}
                             <button class="button button_style_none"
                                     name="favorites"
-                                    {% if not is_really_favorite %}data-out{% endif %}><span
+                                    {% if not is_really_favorite %}data-out = 'true'{% endif %}><span
                                     class="icon-favorite icon-favorite_big {% if is_really_favorite %}icon-favorite_active{% endif %}"></span>
                             </button>
                             <div class="single-card__favorite-tooltip tooltip">
