@@ -26,7 +26,7 @@
                             {% for recipe in recipes %}
                                 <li class="card-user__item">
                                     <div class="recipe">
-                                        <img src="{% if item.image %}{{ item.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
+                                        <img src="{% if recipe.image %}{{ recipe.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
                                              alt="{{ recipe.name }}"
                                              class="recipe__image">
                                         <h3 class="recipe__title">{{ recipe.name }}</h3>
