@@ -182,7 +182,7 @@ def single_recipe(request, slug):
 
 @login_required()
 def my_follow(request):
-    authors = request.user.following.all()
+    authors = request.user.his_following.all()
 
     paginator = Paginator(authors, PER_PAGE)
     page_number = request.GET.get("page")
