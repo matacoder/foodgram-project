@@ -39,8 +39,8 @@ jobs:
       - name: Create Container Tag
         id: date
         run: |
-          export MONTH=`date +'%m'`
-          export DAY=`date +'%d'`
+          MONTH=`date +'%m'`
+          DAY=`date +'%d'`
           tag=1.$MONTH.$DAY
           echo "::set-output name=tag::$tag"
       - name: Login to Docker
