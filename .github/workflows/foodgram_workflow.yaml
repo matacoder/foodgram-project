@@ -56,7 +56,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/foodgram:latest
-            ${{ secrets.DOCKER_USERNAME }}/foodgram:{{ steps.date.outputs.TAG }}
+            ${{ secrets.DOCKER_USERNAME }}/foodgram:${{ steps.date.outputs.TAG }}
 
   magic_deploy:
     name: Deploy to server with remote docker-compose
