@@ -41,7 +41,7 @@ jobs:
         run: |
           export MONTH=`date +'%m'`
           export DAY=`date +'%d'`
-          TAG=1.${{MONTH}}.${{DAY}}
+          TAG=1.$MONTH.$DAY
           echo $TAG
           export TAG
       - name: Login to Docker
