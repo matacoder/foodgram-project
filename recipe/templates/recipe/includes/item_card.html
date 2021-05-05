@@ -9,8 +9,7 @@
             alt="{{ item.name }}"
             class="card__image"></a>
     <div class="card__body">
-        <a class="card__title link" href="{% url "single" item.slug %}"
-           target="_blank">{{ item.name }}</a>
+        <a class="card__title link" href="{% url "single" item.slug %}">{{ item.name }}</a>
         <ul class="card__items">
             {% for tag in item.tags.all %}
                 <li class="card__item"><span
@@ -21,9 +20,7 @@
         <div class="card__items card__items_column">
             <p class="card__text"><span
                     class="icon-time"></span> {{ item.cook_time }} min.</p>
-            <p class="card__text"><span class="icon-user"></span> <a
-                    href={% url "author_recipe" item.author.username %} style="color:
-                    black">{{ item.author.first_name }}</a>
+            <p class="card__text"><span class="icon-user"></span> <a href={% url "author_recipe" item.author.username %} style="color:black">{{ item.author.first_name }}</a>
             </p>
         </div>
     </div>
