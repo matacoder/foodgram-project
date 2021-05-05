@@ -4,7 +4,7 @@
 {% endif %}
 {% csrf_token %}
 <div class="card" data-id="{{ item.id }}">
-    <a href="{% url "single" item.slug %}" class="link" target="_blank"><img
+    <a href="{% url "single" item.slug %}" class="link"><img
             src="{% if item.image %}{{ item.image.url }}{% else %}/static/nophoto.jpg{% endif %}"
             alt="{{ item.name }}"
             class="card__image"></a>
