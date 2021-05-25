@@ -1,17 +1,21 @@
+# Foodgram: recipes social network
+<img src="https://raw.githubusercontent.com/matacoder/matacoder/main/foodgram.png">
+
 [![FOODGRAM workflow](https://github.com/matacoder/foodgram-project/actions/workflows/foodgram_workflow.yaml/badge.svg)](https://github.com/matacoder/foodgram-project/actions/workflows/foodgram_workflow.yaml)
 
-# Foodgram: recipes
-You can see project at
-`https://cafetveria.ru`
+You can see project at [https://cafe.matakov.com](https://cafe.matakov.com)
 
 #What is this?
-This is my diploma project for Yandex.Praktikum online school of backend development.
+
+This is my diploma project for Yandex.Prakticum online school of backend development.
 
 #How to deploy?
+
 This project can be deployed using `docker-compose`. All files would be mounted to containers, and you would be able to see changes on-the-fly.
 Here you can also find production version of `docker-compose.yaml`
 
 # Stack
+
 - Django
 - Postgres
 - Nginx
@@ -19,6 +23,7 @@ Here you can also find production version of `docker-compose.yaml`
 - Gunicorn
 
 # What is Caddy?
+
 It is a convenient way to run your site on a server. Just install it and put in `Caddyfile`:
 
 `example.com`
