@@ -5,11 +5,11 @@
 
 You can see project at [https://cafe.matakov.com](https://cafe.matakov.com)
 
-#What is this?
+# What is this?
 
 This is my diploma project for Yandex.Prakticum online school of backend development.
 
-#How to deploy?
+# How to deploy?
 
 This project can be deployed using `docker-compose`. All files would be mounted to containers, and you would be able to see changes on-the-fly.
 Here you can also find production version of `docker-compose.yaml`
