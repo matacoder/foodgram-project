@@ -7,7 +7,7 @@ You can see project at [https://cafe.matakov.com](https://cafe.matakov.com)
 
 # What is this?
 
-This is my diploma project for Yandex.Prakticum online school of backend development.
+Online social network for recipes exchange with ability to add repices to cart and export inrgredients as combined shop list.
 
 # How to deploy?
 
