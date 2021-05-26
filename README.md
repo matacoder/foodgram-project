@@ -22,6 +22,17 @@ Here you can also find production version of `docker-compose.yaml`
 - Caddy
 - Gunicorn
 
+# Features
+
+- Add/edit recipe with ingredients (django in atomic transactions mode)
+- Add to cart (database based and session based approaches for unregistered users)
+- Add to favorites
+- Follow author
+- Pagination
+- CSV export
+- PDF export
+- Tags via GET-params
+
 # What is Caddy?
 
 It is a convenient way to run your site on a server. Just install it and put in `Caddyfile`:
