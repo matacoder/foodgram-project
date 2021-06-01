@@ -10,14 +10,13 @@ DEBUG = os.environ.get('DEBUG') == '1'
 ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = [
-    # ...
     '127.0.0.1',
-    # ...
 ]
 
-DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
-}
+if DEBUG:
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
+    }
 
 AUTH_USER_MODEL = 'users.User'
 AUTHOR_ITEMS = 3
