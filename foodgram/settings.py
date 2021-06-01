@@ -9,6 +9,16 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
+}
+
 AUTH_USER_MODEL = 'users.User'
 AUTHOR_ITEMS = 3
 PER_PAGE = 3
@@ -26,10 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
