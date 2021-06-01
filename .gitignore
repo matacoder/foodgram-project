@@ -134,3 +134,4 @@ dmypy.json
 media/
 email/
 static/admin/
+/static/debug_toolbar/

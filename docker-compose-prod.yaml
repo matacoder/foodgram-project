@@ -21,6 +21,8 @@ services:
     restart: always
     env_file:
       - ./.env
+    environment:
+      - DEBUG=0
     volumes:
       - static:/code/static
       - media:/code/media
