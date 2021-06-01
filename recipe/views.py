@@ -9,9 +9,9 @@ from django.urls import reverse
 from foodgram.settings import PER_PAGE
 from recipe.forms import RecipeForm
 from recipe.models import Recipe, Tag
-from recipe.services import (
-    combine_ingredients, filter_by_tags, generate_pdf, get_session_recipes,
-    get_tags_from, import_ingredients_from_csv, save_form_m2m)
+from recipe.services import (combine_ingredients, filter_by_tags, generate_pdf,
+                             get_session_recipes, get_tags_from,
+                             import_ingredients_from_csv, save_form_m2m)
 from users.models import User
 
 
