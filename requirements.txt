@@ -16,5 +16,5 @@ pyflakes==2.3.1
 pytz==2021.1
 reportlab==3.5.65
 selenium==3.141.0
-sqlparse==0.4.1
+sqlparse==0.4.2
 urllib3==1.26.5
