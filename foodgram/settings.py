@@ -13,10 +13,10 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-if DEBUG:
-    DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
-    }
+# if DEBUG:
+#     DEBUG_TOOLBAR_CONFIG = {
+#         'SHOW_TOOLBAR_CALLBACK': lambda request: False if request.is_ajax() else True,
+#     }
 
 AUTH_USER_MODEL = 'users.User'
 AUTHOR_ITEMS = 3
@@ -47,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'foodgram.middlewares.AjaxMiddleware',
 ]
 
 ROOT_URLCONF = 'foodgram.urls'
