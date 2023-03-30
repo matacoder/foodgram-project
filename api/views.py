@@ -105,8 +105,7 @@ def ingredients(request):
     if request.method == "GET":
         query = request.GET.get("query", "")
         if query:
-            found_ingredients = Ingredient.objects.filter(
-                name__startswith=query)
+            found_ingredients = Ingredient.objects.filter(name__startswith=query)
             for found_ingredient in found_ingredients:
                 ingredient_api = {
                     "title": found_ingredient.name,

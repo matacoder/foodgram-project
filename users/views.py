@@ -46,5 +46,4 @@ class PasswordChangeDoneView(TemplateView):
 
 @login_required
 def profile(request):
-
-    return redirect(reverse('author_recipe', args=(request.user.username,)))
+    return redirect(reverse("author_recipe", args=(request.user.username,)))

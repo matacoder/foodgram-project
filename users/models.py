@@ -5,12 +5,15 @@ from foodgram import settings
 
 
 class User(AbstractUser):
-    """ Custom user model """
+    """Custom user model"""
 
-    following = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
-                                       related_name="his_following",
-                                       verbose_name="Who I follow",
-                                       symmetrical=False)
+    following = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        related_name="his_following",
+        verbose_name="Who I follow",
+        symmetrical=False,
+    )
 
     def __str__(self):
-        return f'{self.username}: {self.get_full_name()}'
+        return f"{self.username}: {self.get_full_name()}"

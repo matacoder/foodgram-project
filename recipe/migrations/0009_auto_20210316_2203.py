@@ -5,36 +5,59 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('recipe', '0008_auto_20210316_2159'),
+        ("recipe", "0008_auto_20210316_2159"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='recipe',
-            name='favorite',
-            field=models.ManyToManyField(blank=True, default='', related_name='favorite_recipes', to=settings.AUTH_USER_MODEL, verbose_name='Who added to favorites'),
+            model_name="recipe",
+            name="favorite",
+            field=models.ManyToManyField(
+                blank=True,
+                default="",
+                related_name="favorite_recipes",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Who added to favorites",
+            ),
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='image',
-            field=models.ImageField(blank=True, default='', upload_to='recipes/', verbose_name="Recipe's Image"),
+            model_name="recipe",
+            name="image",
+            field=models.ImageField(
+                blank=True,
+                default="",
+                upload_to="recipes/",
+                verbose_name="Recipe's Image",
+            ),
         ),
         migrations.AlterField(
-            model_name='recipe',
-            name='listed',
-            field=models.ManyToManyField(blank=True, default='', related_name='listed_recipes', to=settings.AUTH_USER_MODEL, verbose_name='Who added to cart'),
+            model_name="recipe",
+            name="listed",
+            field=models.ManyToManyField(
+                blank=True,
+                default="",
+                related_name="listed_recipes",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Who added to cart",
+            ),
         ),
         migrations.AlterField(
-            model_name='tag',
-            name='color',
-            field=models.CharField(blank=True, default='', max_length=100, verbose_name="Tag's color"),
+            model_name="tag",
+            name="color",
+            field=models.CharField(
+                blank=True, default="", max_length=100, verbose_name="Tag's color"
+            ),
         ),
         migrations.AlterField(
-            model_name='tag',
-            name='nice_name',
-            field=models.CharField(blank=True, default='', max_length=255, verbose_name='Nice english name for tag'),
+            model_name="tag",
+            name="nice_name",
+            field=models.CharField(
+                blank=True,
+                default="",
+                max_length=255,
+                verbose_name="Nice english name for tag",
+            ),
         ),
     ]

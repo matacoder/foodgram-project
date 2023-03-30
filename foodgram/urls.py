@@ -9,7 +9,7 @@ handler404 = "foodgram.views.page_not_found"  # noqa
 handler500 = "foodgram.views.server_error"  # noqa
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
     path("accounts/", include("users.urls")),
     path("", include("recipe.urls")),
     path("api/", include("api.urls")),
@@ -19,5 +19,5 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('__debug__/', include(debug_toolbar.urls)),
+    path("__debug__/", include(debug_toolbar.urls)),
 ]

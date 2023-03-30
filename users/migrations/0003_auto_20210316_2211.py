@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0002_auto_20210312_2049'),
+        ("users", "0002_auto_20210312_2049"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='following',
-            field=models.ManyToManyField(blank=True, related_name='his_following', to=settings.AUTH_USER_MODEL, verbose_name='Who I follow'),
+            model_name="user",
+            name="following",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="his_following",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Who I follow",
+            ),
         ),
     ]

@@ -5,15 +5,16 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('recipe', '0004_auto_20210308_2220'),
+        ("recipe", "0004_auto_20210308_2220"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='recipe',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(allow_unicode=True, editable=True, populate_from='name', unique=True),
+            model_name="recipe",
+            name="slug",
+            field=autoslug.fields.AutoSlugField(
+                allow_unicode=True, editable=True, populate_from="name", unique=True
+            ),
         ),
     ]

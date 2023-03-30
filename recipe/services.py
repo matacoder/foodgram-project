@@ -49,8 +49,7 @@ def check_and_convert_to_objects(ingredients, recipe):
         amount = math.fabs(Decimal(amount.replace(",", ".")))
         try:
             ingredient = get_object_or_404(Ingredient, name__exact=name)
-            amounts.append(
-                Amount(recipe=recipe, ingredient=ingredient, amount=amount))
+            amounts.append(Amount(recipe=recipe, ingredient=ingredient, amount=amount))
         except MultipleObjectsReturned:
             pass
     return amounts
@@ -65,8 +64,9 @@ def combine_ingredients(request):
     combined_ingredients = {}
     for amount in amounts:
         amount_name = f"{amount.ingredient.name}, {amount.ingredient.measure}"
-        combined_ingredients[amount_name] = combined_ingredients.get(
-            amount_name, 0) + amount.amount
+        combined_ingredients[amount_name] = (
+            combined_ingredients.get(amount_name, 0) + amount.amount
+        )
 
     return combined_ingredients
 
@@ -118,7 +118,7 @@ def filter_by_tags(recipes, tags):
 
 def import_ingredients_from_csv():
     module_dir = os.path.dirname(__file__)  # get current directory
-    path = os.path.join(module_dir, 'ingredients.csv')
+    path = os.path.join(module_dir, "ingredients.csv")
     with open(path) as f:
         reader = csv.reader(f)
         for row in reader:

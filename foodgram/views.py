@@ -6,17 +6,8 @@ def server_error(request):
 
 
 def page_not_found(request, exception):
-    return render(
-        request,
-        "misc/404.html",
-        {"path": request.path},
-        status=404
-    )
+    return render(request, "misc/404.html", {"path": request.path}, status=404)
 
 
 def tech(request):
-    return render(
-        request,
-        "misc/tech.html",
-        {}
-    )
+    return render(request, "misc/tech.html", {})

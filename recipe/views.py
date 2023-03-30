@@ -9,17 +9,27 @@ from django.urls import reverse
 from foodgram.settings import PER_PAGE
 from recipe.forms import RecipeForm
 from recipe.models import Recipe, Tag
-from recipe.services import (combine_ingredients, filter_by_tags, generate_pdf,
-                             get_session_recipes, get_tags_from,
-                             import_ingredients_from_csv, save_form_m2m)
+from recipe.services import (
+    combine_ingredients,
+    filter_by_tags,
+    generate_pdf,
+    get_session_recipes,
+    get_tags_from,
+    import_ingredients_from_csv,
+    save_form_m2m,
+)
 from users.models import User
 
 
 def index(request):
     tags = get_tags_from(request)
-    recipes = Recipe.objects.select_related(
-        "author",
-    ).order_by("-pub_date").all()
+    recipes = (
+        Recipe.objects.select_related(
+            "author",
+        )
+        .order_by("-pub_date")
+        .all()
+    )
     if tags:
         recipes = filter_by_tags(recipes, tags)
 
@@ -35,7 +45,7 @@ def index(request):
             "paginator": paginator,
             "tags": tags,
             "tags_objects": Tag.objects.all(),
-        }
+        },
     )
 
 
@@ -43,9 +53,13 @@ def author_recipe(request, username):
     tags = get_tags_from(request)
     author = get_object_or_404(User, username=username)
 
-    recipes = Recipe.objects.select_related(
-        "author",
-    ).order_by("-pub_date").filter(author=author)
+    recipes = (
+        Recipe.objects.select_related(
+            "author",
+        )
+        .order_by("-pub_date")
+        .filter(author=author)
+    )
 
     if tags:
         recipes = filter_by_tags(recipes, tags)
@@ -63,7 +77,7 @@ def author_recipe(request, username):
             "author": author,
             "tags_objects": Tag.objects.all(),
             "tags": tags,
-        }
+        },
     )
 
 
@@ -71,13 +85,22 @@ def author_recipe(request, username):
 def favorite(request):
     tags = get_tags_from(request)
     if tags:
-        recipes = request.user.favorite_recipes.select_related(
-            "author",
-        ).order_by("-pub_date").filter(tags__name__in=tags).distinct()
+        recipes = (
+            request.user.favorite_recipes.select_related(
+                "author",
+            )
+            .order_by("-pub_date")
+            .filter(tags__name__in=tags)
+            .distinct()
+        )
     else:
-        recipes = request.user.favorite_recipes.select_related(
-            "author",
-        ).order_by("-pub_date").all()
+        recipes = (
+            request.user.favorite_recipes.select_related(
+                "author",
+            )
+            .order_by("-pub_date")
+            .all()
+        )
 
     paginator = Paginator(recipes, PER_PAGE)
     page_number = request.GET.get("page")
@@ -91,7 +114,7 @@ def favorite(request):
             "paginator": paginator,
             "tags_objects": Tag.objects.all(),
             "tags": tags,
-        }
+        },
     )
 
 
@@ -126,14 +149,12 @@ def delete_recipe(request, slug):
 @login_required()
 def edit_recipe(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
-    url = reverse(
-        "single",
-        kwargs={"slug": slug}
-    )
+    url = reverse("single", kwargs={"slug": slug})
     if recipe.author != request.user:
         return redirect(url)
-    form = RecipeForm(request.POST or None, files=request.FILES or None,
-                      instance=recipe)
+    form = RecipeForm(
+        request.POST or None, files=request.FILES or None, instance=recipe
+    )
     if form.is_valid():
         recipe.amounts.all().delete()  # clean ingredients before m2m saving
         save_form_m2m(request, form)
@@ -148,15 +169,19 @@ def edit_recipe(request, slug):
             "form": form,
             "used_ingredients": used_ingredients,
             "edit": edit,
-        }
+        },
     )
 
 
 def shoplist(request):
     if request.user.is_authenticated:
-        recipes = request.user.listed_recipes.select_related(
-            "author",
-        ).order_by("-pub_date").all()
+        recipes = (
+            request.user.listed_recipes.select_related(
+                "author",
+            )
+            .order_by("-pub_date")
+            .all()
+        )
     else:
         recipes = get_session_recipes(request)
 
@@ -165,19 +190,13 @@ def shoplist(request):
         "recipe/shop_list.html",
         {
             "recipes": recipes,
-        }
+        },
     )
 
 
 def single_recipe(request, slug):
     recipe = get_object_or_404(Recipe, slug=slug)
-    return render(
-        request,
-        "recipe/single_page.html",
-        {
-            "recipe": recipe
-        }
-    )
+    return render(request, "recipe/single_page.html", {"recipe": recipe})
 
 
 @login_required()
@@ -189,12 +208,7 @@ def my_follow(request):
     page = paginator.get_page(page_number)
 
     return render(
-        request,
-        "recipe/my_follow.html",
-        {
-            "authors": page,
-            "paginator": paginator
-        }
+        request, "recipe/my_follow.html", {"authors": page, "paginator": paginator}
     )
 
 
@@ -211,7 +225,7 @@ def download_as_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = 'attachment; filename="ingredients.csv"'
-    response.write(u"\ufeff".encode("utf8"))
+    response.write("\ufeff".encode("utf8"))
 
     writer = csv.writer(response)
     for key, value in combined_ingredients.items():
