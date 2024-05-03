@@ -1,4 +1,4 @@
-name: FOODGRAM workflow
+name: cafe.matakov.com workflow
 
 on:
   push:
@@ -104,8 +104,8 @@ jobs:
           docker context create remote --docker "host=ssh://${{ secrets.SSH_USER }}@${{ secrets.IP_HOST }}"
           docker context use remote
           docker pull matakov/foodgram:latest
-          docker-compose --context remote down
-          docker-compose --context remote up -d --force-recreate --build
+          docker compose down
+          docker compose up -d --force-recreate --build
 
   send_message:
     name: Send telegram notification
